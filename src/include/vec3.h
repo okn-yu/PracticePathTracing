@@ -2,11 +2,6 @@
 // Created by okn-yu on 2022/05/02.
 //
 
-
-
-#ifndef PATHTRACING_VEC3_TEST_H
-#define PATHTRACING_VEC3_TEST_H
-
 #include <iostream>
 #include <cmath>
 
@@ -167,5 +162,3 @@ Vec3 localToWorld(const Vec3 &v, const Vec3 &s, const Vec3 &n, const Vec3 &t) {
     return Vec3(dot(v, a), dot(v, b), dot(v, c));
 
 }
-
-#endif //PATHTRACER_VEC3_H

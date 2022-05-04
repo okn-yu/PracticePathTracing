@@ -5,3 +5,6 @@
 # 参考書籍
 * https://booth.pm/ja/items/1159865
 * https://booth.pm/ja/items/2186534
+
+# 参考実装
+* https://github.com/yumcyaWiz/Photorealism-Book
