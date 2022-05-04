@@ -16,10 +16,16 @@ public:
     double y;
     double z;
 
+    //引数なしのコンストラクタ
+    //呼び出し時は以下のように宣言する
+    // Vec3 v0;
+    //()付きで呼び出すとエラーとなる
+    // Vec3 v0();
     Vec3() { x = y = z = 0; };
 
     Vec3(double _x) { x = y = z = _x; };
 
+    //初期化子リストを用いたコンストラクタ
     Vec3(double _x, double _y, double _z) : x(_x), y(_y), z(_z) {};
 
     double length() const {
@@ -30,10 +36,20 @@ public:
         return x * x + y * y + z * z;
     };
 
+    // operatorは演算子のオーバーロードに用いる
+    // -は演算子に引数は不要
     Vec3 operator-() const {
         return Vec3(-x, -y, -z);
     }
 
+    // &をつけることで引数の参照渡しを実現している
+    // 値渡しと異なりコピーを作成しないため処理が効率的
+    // 返り値は*をつけている
+    // クラス内で定義しているからx, y, z, thisが利用できている
+    // なんとなくthisはポインタっぽいので返り値にオブジェクトを返す場合は、*thisとしたくなるのはわかる気がする
+    // TODO: 単項演算子のみクラス内でオーバーロードしているが、二項演算子はすべてクラス外でオーバーロードしているのはなぜか
+    // https://qiita.com/eierapfel/items/60939808c9fafb3f31df
+    // 代入演算子は*thisを返すのがお作法らしいのか?
     Vec3 &operator+=(const Vec3 &v) {
         x += v.x;
         y += v.y;
@@ -57,6 +73,7 @@ public:
 };
 
 // operator: vector and vector
+// ここからはクラス外で演算子のオーバーロードしている
 Vec3 operator+(const Vec3 &v1, const Vec3 &v2) {
     return Vec3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
 }
@@ -118,6 +135,13 @@ Vec3 normalize(const Vec3 &v) {
     return v / v.length();
 }
 
+//コンソール出力
+//C++では入出力に関数は用いず入出力演算子を用いる
+//出力演算子: <<
+//Usage: "出力先 << 出力内容"
+//example: std::cout << v1 << std::endl;
+//endlはマニピュレータで改行文字を出力してバッファをフラッシュする
+//http://kaitei.net/cpp/iostream/
 std::ostream &operator<<(std::ostream &stream, const Vec3 &v) {
     stream << "(" << v.x << ", " << v.y << ", " << v.z << ")";
     return stream;

@@ -3,4 +3,5 @@ project(PracticePathTracing)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(PracticePathTracing src/main.cpp)
+#add_executable(PracticePathTracing src/main.cpp)
+add_executable(PracticePathTracing tests/vec3_test.cpp)
