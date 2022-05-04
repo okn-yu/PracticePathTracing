@@ -8,3 +8,9 @@
 
 # 参考実装
 * https://github.com/yumcyaWiz/Photorealism-Book
+* https://github.com/kinakomoti-321/Raytracing_With_Embree
+
+# 補足資料
+## PPM形式
+* 特別なツールがなくても読み書き編集ができるプレーンテキストの画像形式
+* https://www.mm2d.net/main/prog/c/image_io-01.html

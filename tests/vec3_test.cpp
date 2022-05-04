@@ -3,7 +3,7 @@
 //
 
 # include <iostream>
-# include "../src/include/vec3.h"
+# include "vec3.h"
 
 using namespace std; //std::を省略する
 

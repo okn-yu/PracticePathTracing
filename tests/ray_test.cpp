@@ -3,7 +3,7 @@
 //
 
 #include <iostream>
-#include "../src/include/ray.h"
+#include "ray.h"
 
 using namespace std;
 
