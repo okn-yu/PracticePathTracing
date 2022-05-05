@@ -2,6 +2,9 @@
 // Created by okn-yu on 2022/05/02.
 //
 
+#ifndef PRACTICEPATHTRACING_VEC3_H
+#define PRACTICEPATHTRACING_VEC3_H
+
 #include <iostream>
 #include <cmath>
 
@@ -161,3 +164,5 @@ Vec3 localToWorld(const Vec3 &v, const Vec3 &s, const Vec3 &n, const Vec3 &t) {
     return Vec3(dot(v, a), dot(v, b), dot(v, c));
 
 }
+
+#endif //PRACTICEPATHTRACING_VEC3_H

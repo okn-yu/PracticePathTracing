@@ -11,6 +11,9 @@
 * https://github.com/kinakomoti-321/Raytracing_With_Embree
 
 # 補足資料
+## CMake
+* https://qiita.com/shohirose/items/45fb49c6b429e8b204ac
+
 ## PPM形式
 * 特別なツールがなくても読み書き編集ができるプレーンテキストの画像形式
 * https://www.mm2d.net/main/prog/c/image_io-01.html

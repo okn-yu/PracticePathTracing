@@ -2,6 +2,9 @@
 // Created by okn-yu on 2022/05/04.
 //
 
+#ifndef PRACTICEPATHTRACING_RAY_H
+#define PRACTICEPATHTRACING_RAY_H
+
 #include <iostream>
 #include "vec3.h"
 
@@ -22,3 +25,5 @@ std::ostream& operator<<(std::ostream& stream, const Ray& ray) {
     stream << "origin: " << ray.origin << " direction: " << ray.direction;
     return stream;
 }
+
+#endif //PRACTICEPATHTRACING_RAY_H
