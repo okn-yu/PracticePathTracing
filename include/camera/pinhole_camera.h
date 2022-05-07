@@ -14,7 +14,7 @@ public:
     PinholeCamera(const Vec3 &_camPos, const Vec3 &_camForward, double _pinhole_dist) : Camera(_camPos, _camForward),
                                                                                        pinhole_dist(_pinhole_dist) {};
     //イメージセンサー上の画素(u, v)に対応するRayを返す関数
-    //u, vは(-1, 1)の値をとる
+    //u, vは-1~1の値をとる
     Ray getRay(double u, double v) const {
         //カメラ座標系におけるピンホールの位置
         //こちらは(u, v)に依存せず、カメラ座標系とカメラの内部パラメータのpihholeDistにのみ依存する

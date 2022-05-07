@@ -30,6 +30,14 @@ int main() {
 
     //PPM画像出力
     img.ppm_output("pinhole_test.ppm");
+    std::string filename = "pinhole_test";
+    std::cout << filename <<std::endl;
+
+    //TODO:support PNG output.
+    //std::string cmd = "convert /home/user/tmp/clion/cmake-build-debug-remote-host/pinhole_test.ppm > /home/user/pinhole_test.png";
+    //std::cout << cmd <<std::endl;
+    //std::string cmd = "convert " + filename + ".ppm " + filename + ".png";
+    //system(cmd.c_str());
 
     return 0;
 }

@@ -11,7 +11,7 @@
 
 class Camera {
 public:
-    Vec3 cam_pos; //カメラの位置
+    Vec3 cam_pos; //カメラの位置（正確にはイメージセンサーの中央の座標）
     Vec3 cam_forward; //カメラの前方向
     Vec3 cam_right; //カメラの横方向
     Vec3 cam_up; //カメラの上方向

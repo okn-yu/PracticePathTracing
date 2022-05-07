@@ -9,8 +9,10 @@
 #include <fstream>
 #include <cmath>
 #include <string>
+#include <png.h>
 #include "vec3.h"
 #include "util.h"
+
 
 class Image {
 public:
@@ -80,6 +82,9 @@ public:
             }
         }
         file.close();
+
+    //TODO:PNG形式のサポート
+    //https://daeudaeu.com/libpng/
     };
 };
 
