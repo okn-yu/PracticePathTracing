@@ -5,8 +5,8 @@
 #ifndef PRACTICEPATHTRACING_CAMERA_H
 #define PRACTICEPATHTRACING_CAMERA_H
 
-#include "vec3.h"
-#include "ray.h"
+#include "../vec3.h"
+#include "../ray.h"
 
 
 class Camera {

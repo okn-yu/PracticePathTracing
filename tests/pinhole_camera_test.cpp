@@ -5,9 +5,10 @@
 #include "vec3.h"
 #include "ray.h"
 #include "image.h"
+#include "pixel.h"
 #include "pinhole_camera.h"
 
-int main() {
+void main() {
     Image img(512, 512);
     PinholeCamera cam(Vec3(0, 0, 0), Vec3(0, 0, -1), 1);
 
@@ -38,6 +39,9 @@ int main() {
     //std::cout << cmd <<std::endl;
     //std::string cmd = "convert " + filename + ".ppm " + filename + ".png";
     //system(cmd.c_str());
+
+    //unsigned char n = 0;
+    struct Pixel p(-1, 1.0, 2.0);
 
     return 0;
 }

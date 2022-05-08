@@ -10,8 +10,8 @@
 #include <cmath>
 #include <string>
 #include <png.h>
-#include "vec3.h"
-#include "util.h"
+#include "../vec3.h"
+#include "../util.h"
 
 
 class Image {
@@ -85,6 +85,7 @@ public:
 
     //TODO:PNG形式のサポート
     //https://daeudaeu.com/libpng/
+    //https://gist.github.com/niw/5963798
     };
 };
 

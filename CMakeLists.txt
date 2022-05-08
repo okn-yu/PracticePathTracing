@@ -38,6 +38,8 @@ message("TEST_VARIABLE: '${TEST_VARIABLE}'")
 # https://gitlab.kitware.com/cmake/community/-/wikis/doc/tutorials/How-To-Find-Libraries
 
 find_package(PNG REQUIRED)
+find_package(GTest REQUIRED)
+enable_testing()
 
 # 目的のパッケージが見つかったかの確認
 message("FOUND_PACKAGE?: '${PNG_FOUND}'")
@@ -50,12 +52,23 @@ message("PNG_LIBRARY: '${PNG_LIBRARY}'")
 #add_executable(main tests/ray_test.cpp)
 #add_executable(main tests/ppm_test.cpp)
 #add_executable(main tests/sphere_test.cpp)
+#add_executable(main tests/pinhole_camera_test.cpp)
+add_executable(main tests/test_pixel.cpp)
 
-add_executable(main tests/pinhole_camera_test.cpp)
+# declare GTEST_ROOT
+set(GTEST_ROOT ~/googletest/googletest/)
+
+# Include files directory
+include_directories(${GTEST_ROOT}/include/)
+
+# Library directory
+link_directories(${GTEST_ROOT}/build/)
 
 # target_include_directories:指定した実行ファイルにinclude_directoriesを指定する
 # つまり実行ファイルとヘッダーファイルの紐付けを行う
 target_include_directories(main PRIVATE "include")
+target_include_directories(main PRIVATE "include/image")
 target_include_directories(main PRIVATE "include/camera")
 target_include_directories(main PUBLIC ${PNG_INCLUDE_DIRS})
+target_link_libraries(main gtest gtest_main pthread)
 
