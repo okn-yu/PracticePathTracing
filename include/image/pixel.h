@@ -22,21 +22,19 @@ private:
     int r;
     int g;
     int b;
+    float a;
 
-    void min_check(int n){
-        if (n < 0){
+    static void pix_val_check(int n) {
+        if (n < 0) {
             throw std::runtime_error("val is less than 0.");
         }
-    }
-
-    void max_check(int n){
-        if (UCHAR_MAX < n){
+        if (UCHAR_MAX < n) {
             throw std::runtime_error("val is grater than UCHAR_MAX");
         }
     }
 
 public:
-
+    
     Pixel(int _r, int _g, int _b) {
         r = _r;
         g = _g;
@@ -45,16 +43,25 @@ public:
         //暗黙の型変換を検出したらエラーを発生させる
         //しかし組み込み型の暗黙の型変換を防ぐのは難しい
         //浮動小数点型の3.14が代入された場合はどう処理させるべきなのか?
-
-        min_check(r);
-        min_check(g);
-        min_check(b);
-        max_check(r);
-        max_check(g);
-        max_check(b);
-
+        pix_val_check(r);
+        pix_val_check(g);
+        pix_val_check(b);
     }
 
+    Pixel(int _r, int _g, int _b, float _a) {
+        r = _r;
+        g = _g;
+        b = _b;
+        a = _a;
+        //TODO:
+        //暗黙の型変換を検出したらエラーを発生させる
+        //しかし組み込み型の暗黙の型変換を防ぐのは難しい
+        //浮動小数点型の3.14が代入された場合はどう処理させるべきなのか?
+        pix_val_check(r);
+        pix_val_check(g);
+        pix_val_check(b);
+
+    }
 };
 
 #endif //PRACTICEPATHTRACING_PIXEL_H
