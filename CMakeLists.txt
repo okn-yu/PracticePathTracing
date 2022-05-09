@@ -17,10 +17,7 @@ cmake_minimum_required(VERSION 3.17)
 # プロジェクト名とプログラム言語を指定
 project(PracticePathTracing CXX)
 
+enable_testing()
 add_subdirectory(include)
 add_subdirectory(tests)
-enable_testing()
-
-add_test(NAME MyTest COMMAND Test)
-
 

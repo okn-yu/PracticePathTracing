@@ -14,7 +14,7 @@ TEST(PixelTest, TestNoThrow2) {
 }
 
 TEST(PixelTest, TestNoThrow3) {
-    EXPECT_NO_THROW(Pixel(3, 14, 2, 3));
+    EXPECT_NO_THROW(Pixel(3.14, 2, 3));
 }
 
 TEST(PixelTest, TestThrow1) {

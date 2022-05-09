@@ -19,10 +19,18 @@ private:
     //そのため一時的にint型で宣言し0から255の値に収まっているかを確認する
     //以下で回避できないかを確認すること
     //https://ez-net.jp/article/7D/XrRDo8VO/_4QfAkRTO-Or/
+    //TODO:
+    //暗黙の型変換を検出したらエラーを発生させる
+    //しかし組み込み型の暗黙の型変換を防ぐのは難しい
+    //浮動小数点型の3.14が代入された場合はどう処理させるべきなのか?
+    //C++はタイプセーフではない模様
+    //dynamic_cast等で解決ができないかは要件等
+    //https://docs.microsoft.com/ja-jp/cpp/cpp/user-defined-type-conversions-cpp?view=msvc-170
+    //Piexlのコンストラクタの引数をユーザ定義の独自の型に変換し、explicit指定子を利用すれば解決できる可能性がある
+    //しかしわざわざPiexlのインスタンス作成時に明示的に独自の型に変換しなおすのは面倒である
     int r;
     int g;
     int b;
-    float a;
 
     static void pix_val_check(int n) {
         if (n < 0) {
@@ -34,33 +42,10 @@ private:
     }
 
 public:
-    
-    Pixel(int _r, int _g, int _b) {
-        r = _r;
-        g = _g;
-        b = _b;
-        //TODO:
-        //暗黙の型変換を検出したらエラーを発生させる
-        //しかし組み込み型の暗黙の型変換を防ぐのは難しい
-        //浮動小数点型の3.14が代入された場合はどう処理させるべきなのか?
+    Pixel(int _r, int _g, int _b) : r(_r), g(_g), b(_b) {
         pix_val_check(r);
         pix_val_check(g);
         pix_val_check(b);
-    }
-
-    Pixel(int _r, int _g, int _b, float _a) {
-        r = _r;
-        g = _g;
-        b = _b;
-        a = _a;
-        //TODO:
-        //暗黙の型変換を検出したらエラーを発生させる
-        //しかし組み込み型の暗黙の型変換を防ぐのは難しい
-        //浮動小数点型の3.14が代入された場合はどう処理させるべきなのか?
-        pix_val_check(r);
-        pix_val_check(g);
-        pix_val_check(b);
-
     }
 };
 
