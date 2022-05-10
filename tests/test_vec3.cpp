@@ -2,9 +2,9 @@
 // Created by okn-yu on 2022/05/02.
 //
 
-#include <iostream>
 #include <gtest/gtest.h>
-#include "vec3.h"
+#include <iostream>
+#include "../include/vec3.h"
 
 
 class TestVec3 : public ::testing::Test {
@@ -18,7 +18,7 @@ protected:
     virtual void TearDown() {
         std::cout << "TEST_F finished." << std::endl;
     }
-
+    //組み込み型以外はポインタ型で宣言しないとエラーとなる
     Vec3 *v0;
     Vec3 *v1;
     Vec3 *v2;

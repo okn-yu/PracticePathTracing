@@ -3,7 +3,8 @@
 //
 
 #include <gtest/gtest.h>
-#include "pixel.h"
+#include <iostream>
+#include "../include/image/pixel.h"
 
 TEST(PixelTest, TestNoThrow1) {
     EXPECT_NO_THROW(Pixel(1, 2, 3));

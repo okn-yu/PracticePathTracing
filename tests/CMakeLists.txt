@@ -13,13 +13,13 @@ find_package(GTest REQUIRED)
 # 目的のパッケージが見つかったかの確認
 message("FOUND_GTest_PACKAGE?: '${GTest_FOUND}'")
 
-add_executable(my_test test_vec3.cpp)
+add_executable(my_test test_pixel.cpp test_vec3.cpp)
 
 # target_include_directories:指定した実行ファイルにinclude_directoriesを指定する
 # つまり実行ファイルとヘッダーファイルの紐付けを行う
 target_include_directories(my_test PRIVATE "../include")
 target_include_directories(my_test PRIVATE "../include/image")
-target_include_directories(my_test PRIVATE "../include/camera")
+#target_include_directories(my_test PRIVATE "../include/camera")
 target_include_directories(my_test PUBLIC ${PNG_INCLUDE_DIRS})
 target_link_libraries(my_test gtest gtest_main pthread)
 

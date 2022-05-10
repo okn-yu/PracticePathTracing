@@ -5,7 +5,6 @@
 #ifndef PRACTICEPATHTRACING_PIXEL_H
 #define PRACTICEPATHTRACING_PIXEL_H
 
-#include "../vec3.h"
 #include <cassert>
 #include <limits.h>
 
