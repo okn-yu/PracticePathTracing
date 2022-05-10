@@ -10,8 +10,8 @@
 #include <cmath>
 #include <string>
 #include <png.h>
-#include "../vec3.h"
-#include "../util.h"
+#include "vec3.h"
+#include "util.h"
 
 
 class Image {
