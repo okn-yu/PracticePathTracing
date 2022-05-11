@@ -29,3 +29,7 @@ find_package(PNG REQUIRED)
 message("FOUND_PNG_PACKAGE?: '${PNG_FOUND}'")
 message("PNG_INCLUDE_DIRS: '${PNG_INCLUDE_DIRS}'")
 message("PNG_LIBRARY: '${PNG_LIBRARY}'")
+
+add_subdirectory(camera)
+add_subdirectory(image)
+

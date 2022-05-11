@@ -10,6 +10,9 @@
 # message:デバッグ用途のためコンソールに出力する
 message("Start Root/CMake.")
 
+# ${CMAKE_SOURCE_DIR}:CMakeLists.txtのルートのパスを表す
+message("DEBUG: CMAKE_SOURCE_DIR is ${CMAKE_SOURCE_DIR}/include")
+
 # 対応するcmakeの最小バージョンを指定する
 # 指定を満たさない場合はエラーで終了する
 cmake_minimum_required(VERSION 3.17)
@@ -18,6 +21,7 @@ cmake_minimum_required(VERSION 3.17)
 project(PracticePathTracing CXX)
 
 enable_testing()
-add_subdirectory(include)
-add_subdirectory(tests)
+#add_subdirectory(include)
+#add_subdirectory(tests)
+add_subdirectory(src)
 

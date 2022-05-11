@@ -5,10 +5,9 @@
 #include "vec3.h"
 #include "ray.h"
 #include "image.h"
-#include "pixel.h"
 #include "pinhole_camera.h"
 
-void main() {
+int main() {
     Image img(512, 512);
     PinholeCamera cam(Vec3(0, 0, 0), Vec3(0, 0, -1), 1);
 
@@ -33,15 +32,6 @@ void main() {
     img.ppm_output("pinhole_test.ppm");
     std::string filename = "pinhole_test";
     std::cout << filename <<std::endl;
-
-    //TODO:support PNG output.
-    //std::string cmd = "convert /home/user/tmp/clion/cmake-build-debug-remote-host/pinhole_test.ppm > /home/user/pinhole_test.png";
-    //std::cout << cmd <<std::endl;
-    //std::string cmd = "convert " + filename + ".ppm " + filename + ".png";
-    //system(cmd.c_str());
-
-    //unsigned char n = 0;
-    struct Pixel p(-1, 1.0, 2.0);
 
     return 0;
 }
