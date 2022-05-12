@@ -124,6 +124,10 @@ Vec3 operator/(const float k, const Vec3 &v) {
     return Vec3(k / v.x, k / v.y, k / v.z);
 }
 
+bool operator==(const Vec3 &v, const Vec3 &k) {
+    return (v.x == k.x) && (v.y == k.y) && (v.z == k.z);
+}
+
 float dot(const Vec3 &v1, const Vec3 &v2) {
     return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 }
@@ -171,5 +175,9 @@ Vec3 localToWorld(const Vec3 &v, const Vec3 &s, const Vec3 &n, const Vec3 &t) {
     return Vec3(dot(v, a), dot(v, b), dot(v, c));
 
 }
+
+// TODO:
+//  Point3は構造体として宣言し、Vec3はそのPoint3を内部で利用する形式に書き換えること
+using Point3 = Vec3;
 
 #endif //PRACTICEPATHTRACING_VEC3_H

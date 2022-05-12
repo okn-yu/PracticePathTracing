@@ -7,8 +7,8 @@
 
 struct ConstParam
 {
-    static const int HIT_DISTANCE_MAX;
-    static const int HIT_DISTANCE_MIN;
+    static const int HIT_DISTANCE_MAX = 10000;
+    static const int HIT_DISTANCE_MIN = 0;
 };
 
 #endif //PRACTICEPATHTRACING_CONFIG_H

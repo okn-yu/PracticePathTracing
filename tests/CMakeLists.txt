@@ -13,10 +13,7 @@ find_package(GTest REQUIRED)
 # 目的のパッケージが見つかったかの確認
 message("FOUND_GTest_PACKAGE?: '${GTest_FOUND}'")
 
-add_executable(my_test test_main.cpp test_pixel.h test_vec3.h test_ray.h)
-#add_executable(my_test test_pixel.cpp test_ray.cpp)
-#add_executable(my_test test_pinhole_camera.cpp)
-
+add_executable(my_test test_main.cpp test_pixel.h test_vec3.h test_ray.h test_sphere.h)
 
 # target_include_directories:指定した実行ファイルにinclude_directoriesを指定する
 # つまり実行ファイルとヘッダーファイルの紐付けを行う

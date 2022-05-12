@@ -6,6 +6,7 @@
 #include "test_pixel.h"
 #include "test_ray.h"
 #include "test_vec3.h"
+#include "test_sphere.h"
 
 int main(int argc, char **argv)
 {

@@ -9,49 +9,47 @@
 #include "config.h"
 #include "vec3.h"
 #include "ray.h"
-#include "hit.h"
+#include "hittable.h"
 
-class Sphere {
+class Sphere : public Hittable {
 public:
-    Vec3 center; //中心位置
-    double radius; //半径
+    Vec3 center;
+    float radius;
 
-    Sphere(const Vec3 &_center, double _radius) : center(_center), radius(_radius) {};
+    Sphere(const Vec3 &_center, float _radius) : center(_center), radius(_radius) {};
 
-    //rayと交差しているか判定する。交差している場合は衝突情報をhitに格納する
-    bool intersect(const Ray &ray, Hit &hit) const {
-        //二次方程式の係数
-        double b = dot(ray.direction, ray.origin - center);
-        double c = (ray.origin - center).length2() - radius * radius;
-        //判別式
-        double D = b * b - c;
+    bool hit(const Ray &ray, HitRecord &hit_record) override {
+        float b = dot(ray.direction, ray.origin - center);
+        float c = (ray.origin - center).length2() - radius * radius;
+        float D = b * b - c;
+        float t;
 
-        //解の候補距離
         //t1 <= t2
-        double t1 = -b - std::sqrt(D);
-        double t2 = -b + std::sqrt(D);
+        float t1 = -b - std::sqrt(D);
+        float t2 = -b + std::sqrt(D);
 
-        // t1 <= t2
+
+        // HIT_DISTANCE_MAX < t1 < t2
         if (t1 > ConstParam::HIT_DISTANCE_MAX)
             return false;
+        // t1 < t2 < HIT_DISTANCE_MIN
         if (t2 < ConstParam::HIT_DISTANCE_MIN)
             return false;
+        // t1 < HIT_DISTANCE_MIN, HIT_DISTANCE_MAX < t2
         if (t1 < ConstParam::HIT_DISTANCE_MIN & ConstParam::HIT_DISTANCE_MAX < t2)
             return false;
 
-        double t;
-
+        // HIT_DISTANCE_MIN < t1 < t2
         if (t1 > ConstParam::HIT_DISTANCE_MIN)
             t = t1;
-        else{
+            // t1 < t2 < HIT_DISTANCE_MIN
+        else {
             t = t2;
         }
 
-        //衝突情報を格納
-        hit.t = t;
-        hit.hit_pos = ray(t);
-        hit.hit_normal = normalize(hit.hit_pos - center);
-        hit.hit_sphere = this;
+        hit_record.t = t;
+        hit_record.hit_pos = ray(t);
+        hit_record.hit_normal = normalize(hit_record.hit_pos - center);
 
         return true;
     };
