@@ -17,8 +17,8 @@ struct HitRecord {
 
 class Hittable {
 public:
-    //virtual  ~Hittable();
-    virtual bool hit(const Ray &ray, HitRecord &record) = 0;
+    virtual  ~Hittable();
+    virtual bool is_hittable(const Ray &ray, HitRecord &record) = 0;
 };
 
 #endif //PRACTICEPATHTRACING_HITTABLE_H

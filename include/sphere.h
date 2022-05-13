@@ -17,8 +17,9 @@ public:
     float radius;
 
     Sphere(const Vec3 &_center, float _radius) : center(_center), radius(_radius) {};
+    ~Sphere() override{};
 
-    bool hit(const Ray &ray, HitRecord &hit_record) override {
+    bool is_hittable(const Ray &ray, HitRecord &hit_record) override {
         float b = dot(ray.direction, ray.origin - center);
         float c = (ray.origin - center).length2() - radius * radius;
         float D = b * b - c;
@@ -43,16 +44,15 @@ public:
         if (t1 > ConstParam::HIT_DISTANCE_MIN)
             t = t1;
             // t1 < t2 < HIT_DISTANCE_MIN
-        else {
+        else
             t = t2;
-        }
 
         hit_record.t = t;
         hit_record.hit_pos = ray(t);
         hit_record.hit_normal = normalize(hit_record.hit_pos - center);
 
         return true;
-    };
+    }
 };
 
 #endif //PRACTICEPATHTRACING_SPHERE_H

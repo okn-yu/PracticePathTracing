@@ -8,10 +8,10 @@
 #include "sphere.h"
 
 TEST(SphereTest, Hittable) {
-    Sphere s(Point3(0.0f, 0.0f, 0.0f), 1.0f);
+    Sphere sphere(Point3(0.0f, 0.0f, 0.0f), 1.0f);
     Ray ray(Vec3(0, 0, -3), Vec3(0, 0, 1));
     HitRecord hit_record;
-    bool is_hittable = s.hit(ray, hit_record);
+    bool is_hittable = sphere.is_hittable(ray, hit_record);
 
     EXPECT_EQ(is_hittable, true);
     EXPECT_EQ(hit_record.hit_pos, (0.0f, 0.0f, -1.0f));
