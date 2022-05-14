@@ -1,0 +1,6 @@
+[submodule "tests/extern"]
+	path = tests/extern
+	url = https://github.com/nothings/stb
+[submodule "extern"]
+	path = extern
+	url = https://github.com/nothings/stb
