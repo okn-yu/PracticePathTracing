@@ -2,5 +2,5 @@
 	path = tests/extern
 	url = https://github.com/nothings/stb
 [submodule "extern"]
-	path = extern
+	path = extern/stb
 	url = https://github.com/nothings/stb
