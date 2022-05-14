@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <fstream>
+#include "stb_image_write.h"
 
 using namespace std;
 

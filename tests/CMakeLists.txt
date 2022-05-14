@@ -20,6 +20,7 @@ add_executable(my_test test_main.cpp test_pixel.h test_vec3.h test_ray.h test_sp
 target_include_directories(my_test PRIVATE "${CMAKE_SOURCE_DIR}/include")
 target_include_directories(my_test PRIVATE "${CMAKE_SOURCE_DIR}/include/image")
 target_include_directories(my_test PRIVATE "${CMAKE_SOURCE_DIR}/include/camera")
+target_include_directories(my_test PRIVATE "${CMAKE_SOURCE_DIR}/extern/stb")
 #target_include_directories(my_test PUBLIC ${PNG_INCLUDE_DIRS})
 
 # コメントを書く
