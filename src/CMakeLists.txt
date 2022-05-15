@@ -1,14 +1,20 @@
 # message:デバッグ用途のためコンソールに出力する
 message("Start src/CMake.")
 
-# 対応するcmakeの最小バージョンを指定する
-# 指定を満たさない場合はエラーで終了する
-cmake_minimum_required(VERSION 3.17)
-
-# プロジェクト名とプログラム言語を指定
-project(PracticePathTracing CXX)
+# 実行ファイルのビルド
 add_executable(main main.cpp)
 
-target_include_directories(main PRIVATE "${CMAKE_SOURCE_DIR}/include")
-target_include_directories(main PRIVATE "${CMAKE_SOURCE_DIR}/include/image")
-target_include_directories(main PRIVATE "${CMAKE_SOURCE_DIR}/include/camera")
+# 静的ライブラリ（STATIC）/動的ライブラリ（SHARED）のビルド
+add_library(lib_image SHARED "${CMAKE_SOURCE_DIR}/include/image/pixel.hpp")
+
+# propertiesとしてCXXを指定しないと以下のエラーが発生してしまう
+# CMake Error: CMake can not determine linker language for target:XXX
+# CMake Error: Cannot determine link language for target "XXX".
+set_target_properties(lib_image PROPERTIES LINKER_LANGUAGE CXX)
+
+# includeディレクトリをtargetに追加する
+# add_libraryでライブラリの作成後に実行する必要がある
+target_include_directories(main PUBLIC "${CMAKE_SOURCE_DIR}/include/image/")
+
+# 実行対象のターゲットとライブラリのリンクを行う
+target_link_libraries(main lib_image)

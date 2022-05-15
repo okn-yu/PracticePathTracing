@@ -1,3 +1,20 @@
+#[[
+# message:デバッグ用途のためコンソールに出力する
+message("Start tests/CMake.")
+
+find_package(GTest REQUIRED)
+
+message("FOUND_GTest_PACKAGE?: '${GTest_FOUND}'")
+
+add_executable(my_test test_main.cpp test_pixel.cpp)
+
+add_library(lib_image SHARED "${CMAKE_SOURCE_DIR}/include/image/pixel.hpp")
+set_target_properties(lib_image PROPERTIES LINKER_LANGUAGE CXX)
+target_include_directories(my_test PUBLIC "${CMAKE_SOURCE_DIR}/include/image/")
+target_link_libraries(my_test gtest gtest_main pthread)
+gtest_add_tests(TARGET my_test)
+]]
+
 # message:デバッグ用途のためコンソールに出力する
 message("Start tests/CMake.")
 
@@ -13,7 +30,7 @@ find_package(GTest REQUIRED)
 # 目的のパッケージが見つかったかの確認
 message("FOUND_GTest_PACKAGE?: '${GTest_FOUND}'")
 
-add_executable(my_test test_main.cpp test_pixel.h test_vec3.h test_ray.h test_sphere.h)
+add_executable(my_test test_main.cpp test_pixel.h test_ray.h test_vec3.h test_sphere.h)
 
 # target_include_directories:指定した実行ファイルにinclude_directoriesを指定する
 # つまり実行ファイルとヘッダーファイルの紐付けを行う

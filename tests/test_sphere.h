@@ -3,9 +3,9 @@
 //
 
 #include <gtest/gtest.h>
-#include "hittable.h"
-#include "ray.h"
-#include "sphere.h"
+#include "hit.hpp"
+#include "ray.hpp"
+#include "sphere.hpp"
 
 TEST(SphereTest, Hittable) {
     Sphere sphere(Point3(0.0f, 0.0f, 0.0f), 1.0f);
@@ -14,7 +14,9 @@ TEST(SphereTest, Hittable) {
     bool is_hittable = sphere.is_hittable(ray, hit_record);
 
     EXPECT_EQ(is_hittable, true);
-    EXPECT_EQ(hit_record.hit_pos, (0.0f, 0.0f, -1.0f));
+    EXPECT_EQ(hit_record.t, 2);
+    EXPECT_EQ(hit_record.hit_pos, Vec3(0.0f, 0.0f, -1.0f));
+
 }
 
 

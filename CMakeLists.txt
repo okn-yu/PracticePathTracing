@@ -11,17 +11,20 @@
 message("Start Root/CMake.")
 
 # ${CMAKE_SOURCE_DIR}:CMakeLists.txtのルートのパスを表す
-message("DEBUG: CMAKE_SOURCE_DIR is ${CMAKE_SOURCE_DIR}/include")
+message("DEBUG: CMAKE_SOURCE_DIR is ${CMAKE_SOURCE_DIR}")
 
 # 対応するcmakeの最小バージョンを指定する
 # 指定を満たさない場合はエラーで終了する
 cmake_minimum_required(VERSION 3.17)
 
+# コンパイラオプションの指定
+# 最適化オプションを外す
+set(CMAKE_C_FLAGS "-O" )
+
 # プロジェクト名とプログラム言語を指定
-project(PracticePathTracing CXX)
+PROJECT(PracticePathTracing CXX)
 
 enable_testing()
-#add_subdirectory(include)
 add_subdirectory(tests)
 #add_subdirectory(src)
 

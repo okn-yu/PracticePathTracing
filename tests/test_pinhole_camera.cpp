@@ -4,7 +4,7 @@
 
 #include "vec3.h"
 #include "ray.h"
-#include "image.h"
+#include "image.hpp"
 #include "pinhole_camera.h"
 
 int main() {

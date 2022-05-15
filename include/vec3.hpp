@@ -91,29 +91,17 @@ Vec3 operator/(const Vec3 &v1, const Vec3 &v2) {
     return Vec3(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z);
 }
 
+bool operator==(const Vec3 &v1, const Vec3 &v2){
+    return v1.x == v2.x && v1.y == v2.y && v1.z == v2.z;
+}
+
 //operator: vector and scalar
-Vec3 operator+(const Vec3 &v, const float k) {
-    return Vec3(v.x + k, v.y + k, v.z + k);
-}
-
-Vec3 operator+(const float k, const Vec3 &v) {
-    return v + k;
-}
-
-Vec3 operator-(const Vec3 &v, const float k) {
-    return Vec3(v.x - k, v.y - k, v.z - k);
-}
-
-Vec3 operator-(const float k, const Vec3 &v) {
-    return v - k;
-}
-
 Vec3 operator*(const Vec3 &v, const float k) {
     return Vec3(v.x * k, v.y * k, v.z * k);
 }
 
 Vec3 operator*(const float k, const Vec3 &v) {
-    return v * k;
+    return Vec3(v.x * k, v.y * k, v.z * k);
 }
 
 Vec3 operator/(const Vec3 &v, const float k) {
@@ -124,10 +112,7 @@ Vec3 operator/(const float k, const Vec3 &v) {
     return Vec3(k / v.x, k / v.y, k / v.z);
 }
 
-bool operator==(const Vec3 &v, const Vec3 &k) {
-    return (v.x == k.x) && (v.y == k.y) && (v.z == k.z);
-}
-
+//内積と外積
 float dot(const Vec3 &v1, const Vec3 &v2) {
     return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 }

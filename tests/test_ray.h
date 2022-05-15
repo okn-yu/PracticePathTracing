@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "ray.h"
+#include "ray.hpp"
 
 TEST(RayTest, TestNoThrow1) {
     Ray r(Vec3(1, 2, 3), Vec3(0, 1, 2));

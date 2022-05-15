@@ -6,7 +6,7 @@
 #define PRACTICEPATHTRACING_RAY_H
 
 #include <iostream>
-#include "vec3.h"
+#include "vec3.hpp"
 
 class Ray {
 public:

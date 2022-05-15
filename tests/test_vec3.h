@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 #include <iostream>
-#include "vec3.h"
+#include "vec3.hpp"
 
 
 class TestVec3 : public ::testing::Test {

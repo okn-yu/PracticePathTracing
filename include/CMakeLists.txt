@@ -1,3 +1,4 @@
+#[[
 # message:デバッグ用途のためコンソールに出力する
 message("Start include/CMake.")
 
@@ -32,4 +33,5 @@ message("PNG_LIBRARY: '${PNG_LIBRARY}'")
 
 add_subdirectory(camera)
 add_subdirectory(image)
+]]
 

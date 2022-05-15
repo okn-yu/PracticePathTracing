@@ -6,20 +6,19 @@
 #define PRACTICEPATHTRACING_SPHERE_H
 
 #include <cmath>
-#include "config.h"
-#include "vec3.h"
-#include "ray.h"
-#include "hittable.h"
+#include "config.hpp"
+#include "vec3.hpp"
+#include "ray.hpp"
+#include "hit.hpp"
 
-class Sphere : public Hittable {
+class Sphere{
 public:
     Vec3 center;
     float radius;
 
     Sphere(const Vec3 &_center, float _radius) : center(_center), radius(_radius) {};
-    ~Sphere() override{};
 
-    bool is_hittable(const Ray &ray, HitRecord &hit_record) override {
+    bool is_hittable(Ray &ray, HitRecord &hit_record) const{
         float b = dot(ray.direction, ray.origin - center);
         float c = (ray.origin - center).length2() - radius * radius;
         float D = b * b - c;
