@@ -18,6 +18,18 @@ TEST(PixelTest, TestNoThrow3) {
     EXPECT_NO_THROW(Pixel(255, 255, 255));
 }
 
+TEST(PixelTest, R_CHECK) {
+    EXPECT_EQ(Pixel(1, 2, 3).r, 1);
+}
+
+TEST(PixelTest, G_CHECK) {
+    EXPECT_EQ(Pixel(1, 2, 3).g, 2);
+}
+
+TEST(PixelTest, B_CHECK) {
+    EXPECT_EQ(Pixel(1, 2, 3).b, 3);
+}
+
 TEST(PixelTest, TestThrow1) {
 EXPECT_THROW(Pixel(3.14f, 0.0f, 1.0f), std::runtime_error);
 }

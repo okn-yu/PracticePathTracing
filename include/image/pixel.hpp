@@ -7,12 +7,17 @@
 
 #include <iostream>
 
-struct Pixel {
-private:
-    int n;
-    int m;
-    int k;
-public:
+struct Pixel{
+    int r;
+    int g;
+    int b;
+
+    Pixel() {
+        r = 0;
+        g = 0;
+        b = 0;
+    }
+
     Pixel(int _n, int _m, int _k) {
 
         if (_n < 0 || 255 < _n) {
@@ -26,18 +31,27 @@ public:
         if (_k < 0 || 255 < _k) {
             throw std::runtime_error("invalid range");
         }
-        n = _n;
-        m = _m;
-        k = _k;
+        r = _n;
+        g = _m;
+        b = _k;
     }
 
     template<typename T, typename U, typename F>
     Pixel(T _n, U _m, F _k) {
-        n = _n;
-        m = _m;
-        k = _k;
+        r = _n;
+        g = _m;
+        b = _k;
         throw std::runtime_error("not integer argument");
     }
+
 };
+
+bool operator==(const Pixel &src, const Pixel &dst) {
+    return src.r == dst.r && src.g == dst.g & src.b == dst.b;
+}
+
+bool operator!=(const Pixel &src, const Pixel &dst) {
+    return src.r != dst.r || src.g != dst.g || src.b != dst.b;
+}
 
 #endif //PRACTICEPATHTRACING_PIXEL_CPP

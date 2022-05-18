@@ -1,3 +1,4 @@
+# TODO: src直下と同じ形式の以下のMakefileでは二重定義で失敗するため調査が必要
 #[[
 # message:デバッグ用途のためコンソールに出力する
 message("Start tests/CMake.")
@@ -30,7 +31,7 @@ find_package(GTest REQUIRED)
 # 目的のパッケージが見つかったかの確認
 message("FOUND_GTest_PACKAGE?: '${GTest_FOUND}'")
 
-add_executable(my_test test_main.cpp test_pixel.h test_ray.h test_vec3.h test_sphere.h)
+add_executable(my_test test_main.cpp test_pixel.h test_ray.h test_vec3.h test_sphere.h test_image.h)
 
 # target_include_directories:指定した実行ファイルにinclude_directoriesを指定する
 # つまり実行ファイルとヘッダーファイルの紐付けを行う

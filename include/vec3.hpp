@@ -73,8 +73,10 @@ public:
     }
 };
 
-// operator: vector and vector
-// ここからはクラス外で演算子のオーバーロードしている
+//////////////////////////////////
+// operator: vector and vector ///
+//////////////////////////////////
+
 Vec3 operator+(const Vec3 &v1, const Vec3 &v2) {
     return Vec3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
 }
@@ -91,17 +93,20 @@ Vec3 operator/(const Vec3 &v1, const Vec3 &v2) {
     return Vec3(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z);
 }
 
-bool operator==(const Vec3 &v1, const Vec3 &v2){
+bool operator==(const Vec3 &v1, const Vec3 &v2) {
     return v1.x == v2.x && v1.y == v2.y && v1.z == v2.z;
 }
 
-//operator: vector and scalar
+//////////////////////////////////
+// operator: vector and scalar ///
+//////////////////////////////////
+
 Vec3 operator*(const Vec3 &v, const float k) {
     return Vec3(v.x * k, v.y * k, v.z * k);
 }
 
 Vec3 operator*(const float k, const Vec3 &v) {
-    return Vec3(v.x * k, v.y * k, v.z * k);
+    return v * k;
 }
 
 Vec3 operator/(const Vec3 &v, const float k) {
@@ -109,7 +114,7 @@ Vec3 operator/(const Vec3 &v, const float k) {
 }
 
 Vec3 operator/(const float k, const Vec3 &v) {
-    return Vec3(k / v.x, k / v.y, k / v.z);
+    return v / k;
 }
 
 //内積と外積
