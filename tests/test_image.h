@@ -12,7 +12,6 @@ TEST(ImageTest, Constructor) {
     EXPECT_EQ(image.data[0]->b, 0);
 }
 
-//Error!!!
 TEST(ImageTest, getPixel) {
     Image image = Image(100, 100);
     EXPECT_EQ(image.getPixel(0, 0), Pixel());
@@ -32,9 +31,9 @@ TEST(ImageTest, setPixel2) {
 
 TEST(ImageTest, ppmOutput) {
     Image image = Image(255, 255);
-    for (int i = 0; i < 255; i++) {
-        for (int j = 0; j < 255; j++) {
-            image.setPixel(i, j, Pixel(i, j, 0));
+    for (int x = 0; x < 255; x++) {
+        for (int y = 0; y < 255; y++) {
+            image.setPixel(x, y, Pixel(x, y, 0));
         }
     }
 

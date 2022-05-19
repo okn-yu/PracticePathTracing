@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-struct Pixel{
+struct Pixel {
     int r;
     int g;
     int b;
@@ -52,6 +52,11 @@ bool operator==(const Pixel &src, const Pixel &dst) {
 
 bool operator!=(const Pixel &src, const Pixel &dst) {
     return src.r != dst.r || src.g != dst.g || src.b != dst.b;
+}
+
+std::ostream &operator<<(std::ostream &stream, const Pixel &pixel) {
+    stream << "(" << pixel.r << ", " << pixel.g << ", " << pixel.b << ")";
+    return stream;
 }
 
 #endif //PRACTICEPATHTRACING_PIXEL_CPP

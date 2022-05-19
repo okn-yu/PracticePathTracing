@@ -30,21 +30,20 @@ public:
         }
     }
 
-    Pixel getPixel(int i, int j) const {
-        int r = data[(j-1) * width + i]->r;
-        int g = data[(j-1) * width + i]->g;
-        int b = data[(j-1) * width + i]->b;
+    // x: 0 ~ (width-1)
+    // y: 0 ~ (height-1)
+    Pixel getPixel(int x, int y) const {
+        int r = data[y * width + x]->r;
+        int g = data[y * width + x]->g;
+        int b = data[y * width + x]->b;
 
         return Pixel(r, g, b);
     };
 
-    //iは横の座標でjは縦の座標
-    //i:1~width
-    //j:1~height
-    void setPixel(int i, int j, const Pixel &p) {
-        data[(j-1) * width + i]->r = p.r;
-        data[(j-1) * width + i]->g = p.g;
-        data[(j-1) * width + i]->b = p.b;
+    void setPixel(int x, int y, const Pixel &p) {
+        data[y * width + x]->r = p.r;
+        data[y * width + x]->g = p.g;
+        data[y * width + x]->b = p.b;
     };
 
     void ppm_output(const std::string &filename) const {
@@ -52,9 +51,9 @@ public:
         file << "P3" << std::endl;
         file << width << " " << height << std::endl;
         file << "255" << std::endl;
-        for (int j = 0; j < height; j++) {
-            for (int i = 0; i < width; i++) {
-                Pixel pixel = this->getPixel(i, j);
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                Pixel pixel = this->getPixel(x, y);
                 int r = pixel.r;
                 int g = pixel.g;
                 int b = pixel.b;
