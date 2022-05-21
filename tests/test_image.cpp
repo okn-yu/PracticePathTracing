@@ -17,6 +17,23 @@ TEST(ImageTest, getPixel) {
     EXPECT_EQ(image.getPixel(0, 0), Pixel());
 }
 
+TEST(ImageTest, indexError) {
+    Image image = Image(100, 100);
+    EXPECT_THROW(image.getPixel(100, 100), std::runtime_error);
+}
+
+TEST(ImageTest, indexError2) {
+    Image image = Image(100, 100);
+    EXPECT_THROW(image.getPixel(-1, 0), std::runtime_error);
+
+}
+
+TEST(ImageTest, indexNoError) {
+    Image image = Image(100, 100);
+    EXPECT_NO_THROW(image.getPixel(99, 99));
+    //EXPECT_NO_THROW(image.getPixel(0, 0));
+}
+
 TEST(ImageTest, setPixel) {
     Image image = Image(100, 100);
     image.setPixel(50, 50, Pixel(200, 200, 200));

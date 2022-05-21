@@ -12,9 +12,10 @@
 #include <memory>
 #include <vector>
 #include "vec3.hpp"
-#include "util.hpp"
 #include "pixel.hpp"
+#include "utils.hpp"
 
+//https://worthliv.com/cpp_assert.html
 
 class Image {
 public:
@@ -30,20 +31,25 @@ public:
         }
     }
 
-    // x: 0 ~ (width-1)
-    // y: 0 ~ (height-1)
     Pixel getPixel(int x, int y) const {
-        int r = data[y * width + x]->r;
-        int g = data[y * width + x]->g;
-        int b = data[y * width + x]->b;
+        int index = y * width + x;
+        is_index_safe(index, static_cast<int>(data.size()));
+
+        int r = data[index]->r;
+        int g = data[index]->g;
+        int b = data[index]->b;
 
         return Pixel(r, g, b);
     };
 
     void setPixel(int x, int y, const Pixel &p) {
-        data[y * width + x]->r = p.r;
-        data[y * width + x]->g = p.g;
-        data[y * width + x]->b = p.b;
+        int index = y * width + x;
+        is_index_safe(index, static_cast<int>(data.size()));
+
+
+        data[index]->r = p.r;
+        data[index]->g = p.g;
+        data[index]->b = p.b;
     };
 
     void ppm_output(const std::string &filename) const {
