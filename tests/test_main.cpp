@@ -9,6 +9,7 @@
 #include "test_sphere.cpp"
 #include "test_image.cpp"
 
+
 int main(int argc, char **argv)
 {
     testing::InitGoogleTest(&argc, argv);
