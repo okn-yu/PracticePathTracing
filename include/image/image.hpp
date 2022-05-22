@@ -40,21 +40,13 @@ public:
     Pixel read_pixel(int x, int y) const {
         int index = y * width + x;
         is_index_safe(index, static_cast<int>(data.size()));
-
-        int r = data[index]->r;
-        int g = data[index]->g;
-        int b = data[index]->b;
-
-        return Pixel(r, g, b);
+        return *data[index];
     };
 
     void write_pixel(int x, int y, const Pixel &p) {
         int index = y * width + x;
         is_index_safe(index, static_cast<int>(data.size()));
-
-        data[index]->r = p.r;
-        data[index]->g = p.g;
-        data[index]->b = p.b;
+        *data[index] = p;
     };
 
     void ppm_output(const std::string &filename) const {
@@ -74,32 +66,18 @@ public:
         file.close();
     };
 
-    void png_output(const std::string &filename) const {
-        //comp:1=Y, 2=YA, 3=RGB, 4=RGBA.
-        //stride_bytes:"stride_in_bytes" is the distance in bytes from the first byte of a row of pixels to the first byte of the next row of pixels.
+    //comp:1=Y, 2=YA, 3=RGB, 4=RGBA.
+    //stride_bytes:"stride_in_bytes" is the distance in bytes from the first byte of a row of pixels to the first byte of the next row of pixels.
+    void png_output(const std::string &filename, int comp=3) const {
 
         std::vector<uint8_t> output(width * height * 3);
-        for (int h = 0; h < height; h++) {
-            for (int w = 0; w < width; w++) {
-                int index = h * width + w;
-                output[index * 3 + 0] = static_cast<uint8_t>(data[index]->r);
-                output[index * 3 + 1] = static_cast<uint8_t>(data[index]->g);
-                output[index * 3 + 2] = static_cast<uint8_t>(data[index]->b);
-            }
+        for (int i = 0; i < width * height; i++) {
+            output[i * 3 + 0] = static_cast<uint8_t>(data[i]->r);
+            output[i * 3 + 1] = static_cast<uint8_t>(data[i]->g);
+            output[i * 3 + 2] = static_cast<uint8_t>(data[i]->b);
         }
 
-        for (int h = 0; h < height; h++) {
-            for (int w = 0; w < width; w++) {
-                int index = h * width + w;
-                output[index * 3 + 0] = w;
-                output[index * 3 + 1] = w;
-                output[index * 3 + 2] = w;
-            }
-        }
-
-        stbi_write_png(filename.data(), width, height, 3, output.data(), width * 3);
-        //stbi_write_png(filename.data(), width, height, 3, output.data(), width*3);
-
+        stbi_write_png(filename.data(), width, height, comp, output.data(), width * 3);
     };
 };
 

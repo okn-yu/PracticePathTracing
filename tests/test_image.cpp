@@ -82,13 +82,12 @@ TEST(ImageTest, ppmOutput3) {
 }
 
 TEST(ImageTest, pngOutput){
-    Image image = Image(10, 10);
+    Image image = Image(255, 255);
     for (int x = 0; x < image.width; x++) {
         for (int y = 0; y < image.height; y++) {
-            //image.write_pixel(x, y, Pixel(y, y, y));
-            image.write_pixel(x, y, Pixel(y, y, y));
+            image.write_pixel(x, y, Pixel(x, x, x));
         }
     }
+
     image.png_output("test.png");
-    //EXPECT_EQ(image.read_pixel(100, 10), Pixel(10, 10, 10));
 }

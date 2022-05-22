@@ -44,6 +44,13 @@ struct Pixel {
         throw std::runtime_error("not integer argument");
     }
 
+    Pixel &operator=(const Pixel &src) {
+        r = src.r;
+        g = src.g;
+        b = src.b;
+        return *this;
+    }
+
 };
 
 bool operator==(const Pixel &src, const Pixel &dst) {
