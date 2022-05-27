@@ -22,28 +22,28 @@
 
 //https://worthliv.com/cpp_assert.html
 
+template<typename T>
 class Image {
 public:
     int width;
     int height;
-    std::vector<std::shared_ptr<Pixel>> data;
+    std::vector<std::shared_ptr<RGBPixel>> data;
 
-
-    //std::vector<std::shared_ptr<Pixel>> objects {100, std::make_shared<Pixel>()};
+    //std::vector<std::shared_ptr<RGBPixel>> objects {100, std::make_shared<RGBPixel>()};
     Image(int _width, int _height) : width(_width), height(_height) {
         //TODO:もっと良い初期化方法を探すこと
         for (int i = 0; i < width * height; i++) {
-            data.push_back(std::make_shared<Pixel>());
+            data.push_back(std::make_shared<T>());
         }
     }
 
-    Pixel read_pixel(int x, int y) const {
+    RGBPixel read_pixel(int x, int y) const {
         int index = y * width + x;
         is_index_safe(index, static_cast<int>(data.size()));
         return *data[index];
     };
 
-    void write_pixel(int x, int y, const Pixel &p) {
+    void write_pixel(int x, int y, const RGBPixel &p) {
         int index = y * width + x;
         is_index_safe(index, static_cast<int>(data.size()));
         *data[index] = p;
@@ -56,7 +56,7 @@ public:
         file << "255" << std::endl;
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                Pixel pixel = this->read_pixel(x, y);
+                RGBPixel pixel = this->read_pixel(x, y);
                 int r = pixel.r;
                 int g = pixel.g;
                 int b = pixel.b;
@@ -68,8 +68,10 @@ public:
 
     //comp:1=Y, 2=YA, 3=RGB, 4=RGBA.
     //stride_bytes:"stride_in_bytes" is the distance in bytes from the first byte of a row of pixels to the first byte of the next row of pixels.
-    void png_output(const std::string &filename, int comp=3) const {
+    void png_output(const std::string &filename, int comp = 3) const {
 
+        //TODO:
+        // RGBとGrayの両方に対応するためinsertを使って書き換えること
         std::vector<uint8_t> output(width * height * 3);
         for (int i = 0; i < width * height; i++) {
             output[i * 3 + 0] = static_cast<uint8_t>(data[i]->r);

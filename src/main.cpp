@@ -3,18 +3,17 @@
 //
 
 #include <iostream>
-#include <pixel.hpp>
+#include <cstdint>
 
 using namespace std;
 
-
 int main() {
-    Pixel p1 = Pixel(10, 0, 1);
-    p1.getPixel();
-    Pixel p2 = Pixel(3, 0, 1);
-    p2.getPixel();
-    Pixel p3 = Pixel(3.14, 2, 3);
-    p3.getPixel();
+    uint8_t n = -1;
+    int m = 3;
+    m += n;
+    std::cout << "n= " << unsigned(n) << "." << std::endl;
+    std::cout << "m= " << m << "." << std::endl;
+
 }
 
 
