@@ -1,6 +1,7 @@
-//
-// Created by okn-yu on 2022/05/04.
-//
+/*
+ * Created by okn-yu on 2022/05/04.
+ * Rayには加減乗除のような操作が定義されないため非常にシンプル
+ */
 
 #ifndef PRACTICEPATHTRACING_RAY_H
 #define PRACTICEPATHTRACING_RAY_H
@@ -15,8 +16,9 @@ public:
 
     Ray(const Vec3& _origin, const Vec3& _direction) : origin(_origin), direction(_direction) {};
 
-    Vec3 operator()(double t) const {
-        return origin + t*direction;
+    // float型の引数を取る関数()を定義している
+    Vec3 operator()(float t) const {
+        return origin + t * direction;
     };
 };
 

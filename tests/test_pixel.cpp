@@ -1,6 +1,6 @@
-//
-// Created by okn-yu on 2022/05/08.
-//
+/*
+ * Created by okn-yu on 2022/05/08.
+ */
 
 #include <gtest/gtest.h>
 #include "pixel.hpp"

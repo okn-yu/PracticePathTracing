@@ -32,9 +32,11 @@ public:
     // TODO: explicitを付与することで初期化子リストを用いたコンストラクタのみが実現されることを試験する
     explicit Vec3(float _x) { x = y = z = _x; };
 
-    //初期化子リストを用いたコンストラクタ
+    // 初期化子リストを用いたコンストラクタ
     Vec3(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {};
 
+    // const修飾子をつけるとメンバ変数が変更されないことが保証される
+    // コードが明確になるため利用を推奨
     float length() const {
         return std::sqrt(x * x + y * y + z * z);
     };
@@ -78,50 +80,54 @@ public:
 };
 
 /*
-operator: vector and vector
-*/
+ * operator: vector and vector
+ * inline展開: 高速化のため関数の内容を直接呼び出し元に展開すること
+ * inline展開を用いない場合は、関数呼び出しには関数の定義元のアドレスまで参照するため時間がかかる
+ * 明示的にinline修飾子をつけることでコンパイラにinline展開を強制させる
+ * https://qiita.com/omuRice/items/9e31d9ba17b32703b3b1
+ */
 
-Vec3 operator+(const Vec3 &v1, const Vec3 &v2) {
+inline Vec3 operator+(const Vec3 &v1, const Vec3 &v2) {
     return {v1.x + v2.x, v1.y + v2.y, v1.z + v2.z};
 }
 
-Vec3 operator-(const Vec3 &v1, const Vec3 &v2) {
+inline Vec3 operator-(const Vec3 &v1, const Vec3 &v2) {
     return {v1.x - v2.x, v1.y - v2.y, v1.z - v2.z};
 }
 
-Vec3 operator*(const Vec3 &v1, const Vec3 &v2) {
+inline Vec3 operator*(const Vec3 &v1, const Vec3 &v2) {
     return {v1.x * v2.x, v1.y * v2.y, v1.z * v2.z};
 }
 
-bool operator==(const Vec3 &v1, const Vec3 &v2) {
+inline bool operator==(const Vec3 &v1, const Vec3 &v2) {
     return v1.x == v2.x && v1.y == v2.y && v1.z == v2.z;
 }
 
-float dot(const Vec3 &v1, const Vec3 &v2) {
+inline float dot(const Vec3 &v1, const Vec3 &v2) {
     return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 }
 
-Vec3 cross(const Vec3 &v1, const Vec3 &v2) {
+inline Vec3 cross(const Vec3 &v1, const Vec3 &v2) {
     return {v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z, v1.x * v2.y - v1.y * v2.x};
 }
 
 /*
-operator: vector and scalar
-*/
+ * operator: vector and scalar
+ */
 
-Vec3 operator*(const Vec3 &v, const float k) {
+inline Vec3 operator*(const Vec3 &v, const float k) {
     return {v.x * k, v.y * k, v.z * k};
 }
 
-Vec3 operator*(const float k, const Vec3 &v) {
+inline Vec3 operator*(const float k, const Vec3 &v) {
     return v * k;
 }
 
-Vec3 operator/(const Vec3 &v, const float k) {
+inline Vec3 operator/(const Vec3 &v, const float k) {
     return {v.x / k, v.y / k, v.z / k};
 }
 
-Vec3 operator/(const float k, const Vec3 &v) {
+inline Vec3 operator/(const float k, const Vec3 &v) {
     return v / k;
 }
 
@@ -133,13 +139,18 @@ Vec3 operator/(const float k, const Vec3 &v) {
  * example: std::cout << v1 << std::endl;
  * endlはマニピュレータで改行文字を出力してバッファをフラッシュする
  * http://kaitei.net/cpp/iostream/
-*/
+ */
 
-std::ostream &operator<<(std::ostream &stream, const Vec3 &v) {
+inline  std::ostream &operator<<(std::ostream &stream, const Vec3 &v) {
     stream << "(" << v.x << ", " << v.y << ", " << v.z << ")";
     return stream;
 }
 
+inline Vec3 unit_vec(Vec3 v){
+    return v/v.length();
+}
+
+/*
 void orthonormalBasis(const Vec3 &v1, Vec3 &v2, Vec3 &v3) {
     //Vec3は(0, 1, 0)か(1, 0, 0)のいずれか
     if (std::abs(v1.x) > 0.9f)
@@ -150,6 +161,7 @@ void orthonormalBasis(const Vec3 &v1, Vec3 &v2, Vec3 &v3) {
     v2 = (v2 - dot(v1, v2) * v1).normalize();
     v3 = cross(v1, v2);
 }
+*/
 
 /*
 Vec3 worldToLocal(const Vec3 &v, const Vec3 &s, const Vec3 &n, const Vec3 &t) {

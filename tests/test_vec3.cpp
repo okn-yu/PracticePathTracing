@@ -1,17 +1,12 @@
-//
-// Created by okn-yu on 2022/05/02.
-//
+/*
+ * Created by okn-yu on 2022/05/02.
+ * 関数形式でテストも可能
+ * 作成したインスタンスを使い回す場合はこちらのほうが便利
+ */
 
-//#include <cmath>
 #include <iostream>
 #include <gtest/gtest.h>
 #include "vec3.hpp"
-
-
-/*
- * 下のように関数形式でテストも可能
- * 作成したインスタンスを使い回す場合はこちらのほうが便利
- */
 
 TEST(Vec3Test, Constructor1) {
     EXPECT_EQ(Vec3().x, 0);
@@ -34,19 +29,19 @@ TEST(Vec3Test, Constructor3) {
 
 TEST(Vec3Test, length) {
     Vec3 v = Vec3(0.0f, 3.0f, 4.0f);
-    EXPECT_EQ(v.length(), 5.0f);
+    EXPECT_FLOAT_EQ(v.length(), 5.0f);
 }
 
 TEST(Vec3Test, squared_length) {
     Vec3 v = Vec3(1.0f, 2.0f, 3.0f);
-    EXPECT_EQ(v.squared_length(), 14.0f);
+    EXPECT_FLOAT_EQ(v.squared_length(), 14.0f);
 }
 
 TEST(Vec3Test, normalize) {
     Vec3 v1 = Vec3(0.0f, 3.0f, 4.0f);
     Vec3 v2 = Vec3(0.0f, 0.6f, 0.8f);
 
-    EXPECT_EQ(v1.normalize(), v2);
+    EXPECT_FLOAT_EQ(v1.normalize().length(), 1);
 }
 
 TEST(Vec3Test, reverse) {
@@ -136,6 +131,12 @@ TEST(Vec3Test, scalar_div2) {
     double t = 2;
     Vec3 v2 = Vec3(0.5f, 1.0f, 1.5f);
     EXPECT_EQ(t / v1, v2);
+}
+
+TEST(Vec3Test, unit_vec){
+    Vec3 v1 = Vec3(1.0f, 2.0f, 3.0f);
+    Vec3 v2 = unit_vec(v1);
+    EXPECT_FLOAT_EQ(v2.length(), v2.normalize().length());
 }
 
 

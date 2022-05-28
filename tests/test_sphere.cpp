@@ -8,7 +8,7 @@
 #include "sphere.hpp"
 
 TEST(SphereTest, Hittable) {
-    Sphere sphere(Point3(0.0f, 0.0f, 0.0f), 1.0f);
+    Sphere sphere(Vec3(0.0f, 0.0f, 0.0f), 1.0f);
     Ray ray(Vec3(0, 0, -3), Vec3(0, 0, 1));
     HitRecord hit_record;
     bool is_hittable = sphere.is_hittable(ray, hit_record);

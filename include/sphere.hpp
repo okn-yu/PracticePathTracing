@@ -1,6 +1,6 @@
-//
-// Created by okn-yu on 2022/05/05.
-//
+/*
+ * Created by okn-yu on 2022/05/05.
+ */
 
 #ifndef PRACTICEPATHTRACING_SPHERE_H
 #define PRACTICEPATHTRACING_SPHERE_H
@@ -20,7 +20,7 @@ public:
 
     bool is_hittable(Ray &ray, HitRecord &hit_record) const{
         float b = dot(ray.direction, ray.origin - center);
-        float c = (ray.origin - center).length2() - radius * radius;
+        float c = (ray.origin - center).squared_length() - radius * radius;
         float D = b * b - c;
         float t;
 
@@ -48,7 +48,7 @@ public:
 
         hit_record.t = t;
         hit_record.hit_pos = ray(t);
-        hit_record.hit_normal = normalize(hit_record.hit_pos - center);
+        hit_record.hit_normal = (hit_record.hit_pos - center).normalize();
 
         return true;
     }
