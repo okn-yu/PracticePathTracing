@@ -1,6 +1,6 @@
-//
-// Created by okn-yu on 2022/05/18.
-//
+/*
+ * Created by okn-yu on 2022/05/18.
+ */
 
 #include <gtest/gtest.h>
 #include "pixel.hpp"
@@ -8,9 +8,9 @@
 
 TEST(ImageTest, Constructor) {
     Image<RGBPixel> image = Image<RGBPixel>(100, 100);
-    EXPECT_EQ(image.data[0]->r, 0);
-    EXPECT_EQ(image.data[0]->g, 0);
-    EXPECT_EQ(image.data[0]->b, 0);
+    EXPECT_EQ(image.pixels[0]->r(), 0);
+    EXPECT_EQ(image.pixels[0]->g(), 0);
+    EXPECT_EQ(image.pixels[0]->b(), 0);
 }
 
 TEST(ImageTest, read_pixel) {
@@ -84,12 +84,23 @@ TEST(ImageTest, ppmOutput3) {
     EXPECT_EQ(image.read_pixel(100, 10), RGBPixel(10, 10, 10));
 }
 
-TEST(ImageTest, pngOutput) {
+TEST(ImageTest, RGB_pngOutput) {
     Image<RGBPixel> image = Image<RGBPixel>(255, 255);
     for (int x = 0; x < image.width; x++) {
         for (int y = 0; y < image.height; y++) {
             image.write_pixel(x, y, RGBPixel(x, x, x));
         }
     }
-    image.png_output("test.png");
+    image.png_output("test.png", 3);
+}
+
+TEST(ImageTest, Gray_pngOutput) {
+    Image<GrayPixel> image = Image<GrayPixel>(255, 255);
+    for (int x = 0; x < image.width; x++) {
+        for (int y = 0; y < image.height; y++) {
+            image.write_pixel(x, y, GrayPixel(x));
+        }
+    }
+
+    image.png_output("test2.png", 1);
 }

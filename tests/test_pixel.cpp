@@ -3,6 +3,7 @@
  */
 
 #include <gtest/gtest.h>
+#include <stack>
 #include "pixel.hpp"
 
 /*
@@ -10,7 +11,7 @@
  */
 
 TEST(GrayPixelTest, Constructor1) {
-    EXPECT_EQ(GrayPixel().n, 0);
+    EXPECT_EQ(GrayPixel().n(), 0);
 }
 
 TEST(GrayPixelTest, Constructor2) {
@@ -29,7 +30,7 @@ TEST(GrayPixelTest, Constructor4) {
 }
 
 TEST(GrayPixelTest, Constructor5) {
-    EXPECT_EQ(GrayPixel(255).n, 255);
+    EXPECT_EQ(GrayPixel(255).n(), 255);
 }
 
 TEST(GrayPixelTest, Substitution) {
@@ -37,7 +38,7 @@ TEST(GrayPixelTest, Substitution) {
     GrayPixel dst = GrayPixel(1);
     dst = src;
 
-    EXPECT_EQ(dst.n, 255);
+    EXPECT_EQ(dst.n(), 255);
 }
 
 TEST(GrayPixelTest, Equal) {
@@ -75,24 +76,24 @@ TEST(RGBPixelTest, Constructor4) {
 }
 
 TEST(RGBPixelTest, Constructor5) {
-    EXPECT_EQ(RGBPixel(1, 2, 3).r, 1);
+    EXPECT_EQ(RGBPixel(1, 2, 3).r(), 1);
 }
 
 TEST(RGBPixelTest, Constructor6) {
-    EXPECT_EQ(RGBPixel(1, 2, 3).g, 2);
+    EXPECT_EQ(RGBPixel(1, 2, 3).g(), 2);
 }
 
 TEST(RGBPixelTest, Constructor7) {
-    EXPECT_EQ(RGBPixel(1, 2, 3).b, 3);
+    EXPECT_EQ(RGBPixel(1, 2, 3).b(), 3);
 }
 
 TEST(RGBPixelTest, Substitution) {
     RGBPixel src = RGBPixel(255, 255, 255);
     RGBPixel dst = RGBPixel(1, 1, 1);
     dst = src;
-    EXPECT_EQ(dst.r, src.r);
-    EXPECT_EQ(dst.g, src.g);
-    EXPECT_EQ(dst.b, src.b);
+    EXPECT_EQ(dst.r(), src.r());
+    EXPECT_EQ(dst.g(), src.g());
+    EXPECT_EQ(dst.b(), src.b());
 
 }
 
@@ -107,3 +108,4 @@ TEST(RGBPixelTest, TestThrow3) {
 TEST(RGBPixelTest, TestThrow4) {
     EXPECT_THROW(RGBPixel(-1, 2, 3), std::runtime_error);
 }
+
