@@ -1,6 +1,11 @@
-//
-// Created by okn-yu on 2022/05/05.
-//
+/*
+ * Created by okn-yu on 2022/05/05.
+ * ピンホールカメラは理論的には無限小の点を持つ
+ * レンズがないため全ての距離に対してピントがあっている
+ * レンズがないため焦点距離という概念がない
+ * 実際は点の大きさは有限であるため像にぼけが生じる
+ * さらにレンズを用いていないため撮影時の露光時間が長くなってしまう
+ */
 
 #ifndef PRACTICEPATHTRACING_PINHOLE_CAMERA_H
 #define PRACTICEPATHTRACING_PINHOLE_CAMERA_H
@@ -9,16 +14,16 @@
 
 class PinholeCamera : public Camera {
 public:
-    double pinhole_dist; //イメージセンサーの中心位置からピンホールまでの距離
+    double sensor_dist; //イメージセンサーの中心位置からピンホールまでの距離
 
-    PinholeCamera(const Vec3 &_camPos, const Vec3 &_camForward, double _pinhole_dist) : Camera(_camPos, _camForward),
-                                                                                       pinhole_dist(_pinhole_dist) {};
+    PinholeCamera(const Vec3 &_camPos, const Vec3 &_camForward, double _sensor_dist) : Camera(_camPos, _camForward),
+                                                                                       sensor_dist(_sensor_dist) {};
     //イメージセンサー上の画素(u, v)に対応するRayを返す関数
     //u, vは-1~1の値をとる
     Ray getRay(double u, double v) const {
         //カメラ座標系におけるピンホールの位置
         //こちらは(u, v)に依存せず、カメラ座標系とカメラの内部パラメータのpihholeDistにのみ依存する
-        Vec3 pinhole_pos = cam_pos + pinhole_dist * cam_forward;
+        Vec3 pinhole_pos = cam_pos + sensor_dist * cam_sight_line;
         //カメラ座標系における(u, v)に対応するセンサー上の位置
         //cam_rightとcam_upは正規化されていることに注意
         Vec3 u_v_sensor_pos = cam_pos + u * cam_right + v * cam_up;
@@ -26,7 +31,7 @@ public:
         //Ray(const Vec3& _origin, const Vec3& _direction)
         //sensor_pos: Rayの原点
         //normalize(pinhole_pos - sensor_pos): Rayの方向
-        return Ray(u_v_sensor_pos, normalize(pinhole_pos - u_v_sensor_pos));
+        return Ray(u_v_sensor_pos, (pinhole_pos - u_v_sensor_pos).normalize());
     };
 };
 
