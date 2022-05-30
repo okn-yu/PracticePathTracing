@@ -15,43 +15,58 @@
 
 class Vec3 {
 public:
-    float x;
-    float y;
-    float z;
+    std::array<float, 3> elements{};
+
 
     // 引数なしのコンストラクタ
     // 呼び出し時は以下のように宣言する
     // Vec3 v0;
     // 以下のように()付きで呼び出すとエラーとなる
     // Vec3 v0();
-    Vec3() { x = y = z = 0.0f; };
+    Vec3() { elements[0] = elements[1] = elements[2] = 0.0f; };
 
     // コンストラクタにexpicitを付与すると暗黙的な型変換とコピーコンストラクタを防ぐことができる
     // コピーコンストラクタ: インスタンスの代入時に実行されるコンストラクタ
     // コピーコンストラクタは引数に(const クラス名& 引数名)を取る
     // TODO: explicitを付与することで初期化子リストを用いたコンストラクタのみが実現されることを試験する
-    explicit Vec3(float _x) { x = y = z = _x; };
+    explicit Vec3(float _x) { elements[0] = elements[1] = elements[2] = _x; };
 
     // 初期化子リストを用いたコンストラクタ
-    Vec3(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {};
+    Vec3(float _x, float _y, float _z) {
+        elements[0] = _x;
+        elements[1] = _y;
+        elements[2] = _z;
+    };
+
+    float x(){
+        return elements[0];
+    }
+
+    float y(){
+        return elements[1];
+    }
+
+    float z(){
+        return elements[2];
+    }
 
     // const修飾子をつけるとメンバ変数が変更されないことが保証される
     // コードが明確になるため利用を推奨
     float length() const {
-        return std::sqrt(x * x + y * y + z * z);
+        return std::sqrt(elements[0] * elements[0] + elements[1] * elements[1] + elements[2] * elements[2]);
     };
 
     float squared_length() const {
-        return x * x + y * y + z * z;
+        return elements[0] * elements[0] + elements[1] * elements[1] + elements[2] * elements[2];
     };
 
     Vec3 normalize() const {
-        return {x / length(), y / length(), z / length()};
+        return {elements[0] / length(), elements[1] / length(), elements[2] / length()};
     }
 
     // operatorは演算子のオーバーロードに用いる
     Vec3 operator-() const {
-        return {-x, -y, -z};
+        return {-elements[0], -elements[1], -elements[2]};
     }
 
     // &をつけることで引数の参照渡しを実現している
@@ -65,16 +80,16 @@ public:
     // https://monozukuri-c.com/langcpp-this-pointer/
     // 例えばthisポインタを用いれば、メンバ変数とローカル変数の名前の衝突を避けることができる
     Vec3 &operator+=(const Vec3 &v) {
-        x += v.x;
-        y += v.y;
-        z += v.z;
+        elements[0] += v.elements[0];
+        elements[1] += v.elements[1];
+        elements[2] += v.elements[2];
         return *this;
     }
 
     Vec3 &operator-=(const Vec3 &v) {
-        x -= v.x;
-        y -= v.y;
-        z -= v.z;
+        elements[0] -= v.elements[0];
+        elements[1] -= v.elements[1];
+        elements[2] -= v.elements[2];
         return *this;
     }
 };
@@ -88,35 +103,53 @@ public:
  */
 
 inline Vec3 operator+(const Vec3 &v1, const Vec3 &v2) {
-    return {v1.x + v2.x, v1.y + v2.y, v1.z + v2.z};
+    return {v1.elements[0] + v2.elements[0], v1.elements[1] + v2.elements[1], v1.elements[2] + v2.elements[2]};
 }
 
 inline Vec3 operator-(const Vec3 &v1, const Vec3 &v2) {
-    return {v1.x - v2.x, v1.y - v2.y, v1.z - v2.z};
+    return {v1.elements[0] - v2.elements[0], v1.elements[1] - v2.elements[1], v1.elements[2] - v2.elements[2]};
 }
 
 inline Vec3 operator*(const Vec3 &v1, const Vec3 &v2) {
-    return {v1.x * v2.x, v1.y * v2.y, v1.z * v2.z};
+    return {v1.elements[0] * v2.elements[0], v1.elements[1] * v2.elements[1], v1.elements[2] * v2.elements[2]};
 }
 
 inline bool operator==(const Vec3 &v1, const Vec3 &v2) {
-    return v1.x == v2.x && v1.y == v2.y && v1.z == v2.z;
+    return v1.elements[0] == v2.elements[0] && v1.elements[1] == v2.elements[1] && v1.elements[2] == v2.elements[2];
 }
 
 inline float dot(const Vec3 &v1, const Vec3 &v2) {
-    return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+    return v1.elements[0] * v2.elements[0] + v1.elements[1] * v2.elements[1] + v1.elements[2] * v2.elements[2];
 }
 
 inline Vec3 cross(const Vec3 &v1, const Vec3 &v2) {
-    return {v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z, v1.x * v2.y - v1.y * v2.x};
+    return {v1.elements[1] * v2.elements[2] - v1.elements[2] * v2.elements[1], v1.elements[2] * v2.elements[0] - v1.elements[0] * v2.elements[2],
+            v1.elements[0] * v2.elements[1] - v1.elements[1] * v2.elements[0]};
 }
 
 /*
  * operator: vector and scalar
  */
 
+inline Vec3 operator+(const Vec3 &v, const float k) {
+    return {v.elements[0] + k, v.elements[1] + k, v.elements[2] + k};
+}
+
+inline Vec3 operator+(const float k, const Vec3 &v) {
+    return v + k;
+}
+
+inline Vec3 operator-(const Vec3 &v, const float k) {
+    return {v.elements[0] - k, v.elements[1] - k, v.elements[2] - k};
+}
+
+inline Vec3 operator-(const float k, const Vec3 &v) {
+    return -(v - k);
+}
+
+
 inline Vec3 operator*(const Vec3 &v, const float k) {
-    return {v.x * k, v.y * k, v.z * k};
+    return {v.elements[0] * k, v.elements[1] * k, v.elements[2] * k};
 }
 
 inline Vec3 operator*(const float k, const Vec3 &v) {
@@ -124,7 +157,7 @@ inline Vec3 operator*(const float k, const Vec3 &v) {
 }
 
 inline Vec3 operator/(const Vec3 &v, const float k) {
-    return {v.x / k, v.y / k, v.z / k};
+    return {v.elements[0] / k, v.elements[1] / k, v.elements[2] / k};
 }
 
 inline Vec3 operator/(const float k, const Vec3 &v) {
@@ -141,13 +174,13 @@ inline Vec3 operator/(const float k, const Vec3 &v) {
  * http://kaitei.net/cpp/iostream/
  */
 
-inline  std::ostream &operator<<(std::ostream &stream, const Vec3 &v) {
-    stream << "(" << v.x << ", " << v.y << ", " << v.z << ")";
+inline std::ostream &operator<<(std::ostream &stream, const Vec3 &v) {
+    stream << "(" << v.elements[0] << ", " << v.elements[1] << ", " << v.elements[2] << ")";
     return stream;
 }
 
-inline Vec3 unit_vec(Vec3 v){
-    return v/v.length();
+inline Vec3 unit_vec(Vec3 v) {
+    return v / v.length();
 }
 
 /*

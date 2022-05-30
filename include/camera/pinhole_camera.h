@@ -16,22 +16,16 @@ class PinholeCamera : public Camera {
 public:
     double sensor_dist; //イメージセンサーの中心位置からピンホールまでの距離
 
-    PinholeCamera(const Vec3 &_camPos, const Vec3 &_camForward, double _sensor_dist) : Camera(_camPos, _camForward),
-                                                                                       sensor_dist(_sensor_dist) {};
-    //イメージセンサー上の画素(u, v)に対応するRayを返す関数
-    //u, vは-1~1の値をとる
-    Ray getRay(double u, double v) const {
-        //カメラ座標系におけるピンホールの位置
-        //こちらは(u, v)に依存せず、カメラ座標系とカメラの内部パラメータのpihholeDistにのみ依存する
-        Vec3 pinhole_pos = cam_pos + sensor_dist * cam_sight_line;
-        //カメラ座標系における(u, v)に対応するセンサー上の位置
-        //cam_rightとcam_upは正規化されていることに注意
-        Vec3 u_v_sensor_pos = cam_pos + u * cam_right + v * cam_up;
+    PinholeCamera(const Vec3 &_camPos, const Vec3 &_cam_sight_vec, double _sensor_dist) : Camera(_camPos,
+                                                                                                 _cam_sight_vec),
+                                                                                          sensor_dist(_sensor_dist) {};
 
-        //Ray(const Vec3& _origin, const Vec3& _direction)
-        //sensor_pos: Rayの原点
-        //normalize(pinhole_pos - sensor_pos): Rayの方向
-        return Ray(u_v_sensor_pos, (pinhole_pos - u_v_sensor_pos).normalize());
+    //イメージセンサー上の画素(u, v)に対応するRayを返す関数
+    Ray getRay(double u, double v) const {
+        Vec3 pinhole_pos = cam_pos + sensor_dist * cam_sight_vec;
+        Vec3 u_v_pos = cam_pos + u * cam_right_vec + v * cam_up_vec;
+
+        return Ray(u_v_pos, (pinhole_pos - u_v_pos).normalize());
     };
 };
 

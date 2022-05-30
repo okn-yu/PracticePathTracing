@@ -9,22 +9,22 @@
 #include "vec3.hpp"
 
 TEST(Vec3Test, Constructor1) {
-    EXPECT_EQ(Vec3().x, 0);
-    EXPECT_EQ(Vec3().y, 0);
-    EXPECT_EQ(Vec3().z, 0);
+    EXPECT_EQ(Vec3().x(), 0);
+    EXPECT_EQ(Vec3().y(), 0);
+    EXPECT_EQ(Vec3().z(), 0);
 }
 
 TEST(Vec3Test, Constructor2) {
-    EXPECT_EQ(Vec3(1.0f).x, 1.0);
-    EXPECT_EQ(Vec3(1.0f).y, 1.0);
-    EXPECT_EQ(Vec3(1.0f).z, 1.0);
+    EXPECT_EQ(Vec3(1.0f).x(), 1.0);
+    EXPECT_EQ(Vec3(1.0f).y(), 1.0);
+    EXPECT_EQ(Vec3(1.0f).z(), 1.0);
 }
 
 TEST(Vec3Test, Constructor3) {
     Vec3 v = Vec3(1.0f, 2.0f, 3.0f);
-    EXPECT_EQ(v.x, 1.0);
-    EXPECT_EQ(v.y, 2.0);
-    EXPECT_EQ(v.z, 3.0);
+    EXPECT_EQ(v.x(), 1.0);
+    EXPECT_EQ(v.y(), 2.0);
+    EXPECT_EQ(v.z(), 3.0);
 }
 
 TEST(Vec3Test, length) {
@@ -105,6 +105,34 @@ TEST(Vec3Test, cross) {
     EXPECT_EQ(cross(v1, v2), v3);
 }
 
+TEST(Vec3Test, scalar_add1) {
+    Vec3 v1 = Vec3(1.0f, 2.0f, 3.0f);
+    double t = 2;
+    Vec3 v2 = Vec3(3.0f, 4.0f, 5.0f);
+    EXPECT_EQ(v1 + t, v2);
+}
+
+TEST(Vec3Test, scalar_add2) {
+    Vec3 v1 = Vec3(1.0f, 2.0f, 3.0f);
+    double t = 2;
+    Vec3 v2 = Vec3(3.0f, 4.0f, 5.0f);
+    EXPECT_EQ(t + v1, v2);
+}
+
+TEST(Vec3Test, scalar_sub1) {
+    Vec3 v1 = Vec3(1.0f, 2.0f, 3.0f);
+    double t = 2;
+    Vec3 v2 = Vec3(-1.0f, 0.0f, 1.0f);
+    EXPECT_EQ(v1 - t, v2);
+}
+
+TEST(Vec3Test, scalar_sub2) {
+    Vec3 v1 = Vec3(1.0f, 2.0f, 3.0f);
+    double t = 2;
+    Vec3 v2 = Vec3(1.0f, 0.0f, -1.0f);
+    EXPECT_EQ(t - v1, v2);
+}
+
 TEST(Vec3Test, scalar_mul1) {
     Vec3 v1 = Vec3(1.0f, 2.0f, 3.0f);
     double t = 2;
@@ -133,7 +161,7 @@ TEST(Vec3Test, scalar_div2) {
     EXPECT_EQ(t / v1, v2);
 }
 
-TEST(Vec3Test, unit_vec){
+TEST(Vec3Test, unit_vec) {
     Vec3 v1 = Vec3(1.0f, 2.0f, 3.0f);
     Vec3 v2 = unit_vec(v1);
     EXPECT_FLOAT_EQ(v2.length(), v2.normalize().length());

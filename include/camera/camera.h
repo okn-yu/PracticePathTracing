@@ -25,20 +25,19 @@
 class Camera {
 public:
     Vec3 cam_pos; // center of sensor
-    Vec3 cam_sight_line;
-    Vec3 cam_right;
-    Vec3 cam_up;
+    Vec3 cam_sight_vec;
+    Vec3 cam_right_vec;
+    Vec3 cam_up_vec;
     float sensor_height;
     float sensor_width;
     float sensor_distance;
     float aspect_ratio;
 
-    Camera(const Vec3 &_cam_pos, const Vec3 &_cam_sight_line) : cam_pos(_cam_pos), cam_sight_line(_cam_sight_line) {
-        orthonormalBasis(cam_forward, cam_right, cam_up);
-        std::cout << "cam_pos: " << cam_pos << std::endl;
-        std::cout << "cam_forward: " << cam_forward << std::endl;
-        std::cout << "cam_right: " << cam_right << std::endl;
-        std::cout << "cam_up: " << cam_up << std::endl;
+    Camera(const Vec3 &_cam_pos, const Vec3 &_cam_sight_vec) : cam_pos(_cam_pos){
+        // ベクトルの外積は右ねじの向き
+        cam_sight_vec = _cam_sight_vec.normalize();
+        cam_up_vec = cross(cam_sight_vec, Vec3(0, 1, 0)).normalize();
+        cam_right_vec = cross(cam_sight_vec, cam_up_vec).normalize();
     };
 
     /*

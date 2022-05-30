@@ -3,7 +3,6 @@
  */
 
 #include <gtest/gtest.h>
-#include <stack>
 #include "pixel.hpp"
 
 /*
