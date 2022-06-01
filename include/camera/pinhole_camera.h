@@ -14,18 +14,20 @@
 
 class PinholeCamera : public Camera {
 public:
-    double sensor_dist; //イメージセンサーの中心位置からピンホールまでの距離
 
-    PinholeCamera(const Vec3 &_camPos, const Vec3 &_cam_sight_vec, double _sensor_dist) : Camera(_camPos,
-                                                                                                 _cam_sight_vec),
-                                                                                          sensor_dist(_sensor_dist) {};
+    PinholeCamera(const Vec3 &_camPos, const Vec3 &_cam_sight_vec, float _sensor_dist) : Camera(_camPos,
+                                                                                                _cam_sight_vec
+    ) {
+        sensor_dist = _sensor_dist;
+    };
 
     //イメージセンサー上の画素(u, v)に対応するRayを返す関数
-    Ray getRay(double u, double v) const {
+    Ray shoot(float u, float v) const override {
         Vec3 pinhole_pos = cam_pos + sensor_dist * cam_sight_vec;
-        Vec3 u_v_pos = cam_pos + u * cam_right_vec + v * cam_up_vec;
+        Vec3 uv_pos = cam_pos + u * cam_right_vec + v * cam_up_vec;
+        Ray ray = Ray(uv_pos, (pinhole_pos - uv_pos).normalize());
 
-        return Ray(u_v_pos, (pinhole_pos - u_v_pos).normalize());
+        return ray;
     };
 };
 
