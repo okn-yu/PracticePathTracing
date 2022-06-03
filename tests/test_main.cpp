@@ -6,12 +6,12 @@
  */
 
 #include "gtest/gtest.h"
-#include "test_pixel.cpp"
-#include "test_vec3.cpp"
-#include "test_ray.cpp"
-#include "test_sphere.cpp"
-#include "test_image.cpp"
-#include "test_color.cpp"
+//#include "test_pixel.cpp"
+//#include "test_vec3.cpp"
+//#include "test_ray.cpp"
+//#include "test_sphere.cpp"
+//#include "test_image.cpp"
+//#include "test_color.cpp"
 #include "test_pinhole_camera.cpp"
 
 

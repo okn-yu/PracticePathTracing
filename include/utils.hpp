@@ -1,6 +1,6 @@
-//
-// Created by okn-yu on 2022/05/19.
-//
+/*
+ * Created by okn-yu on 2022/05/19.
+ */
 
 #ifndef PRACTICEPATHTRACING_UTILS_HPP
 #define PRACTICEPATHTRACING_UTILS_HPP

@@ -38,15 +38,15 @@ public:
         elements[2] = _z;
     };
 
-    float x(){
+    float x() {
         return elements[0];
     }
 
-    float y(){
+    float y() {
         return elements[1];
     }
 
-    float z(){
+    float z() {
         return elements[2];
     }
 
@@ -123,7 +123,8 @@ inline float dot(const Vec3 &v1, const Vec3 &v2) {
 }
 
 inline Vec3 cross(const Vec3 &v1, const Vec3 &v2) {
-    return {v1.elements[1] * v2.elements[2] - v1.elements[2] * v2.elements[1], v1.elements[2] * v2.elements[0] - v1.elements[0] * v2.elements[2],
+    return {v1.elements[1] * v2.elements[2] - v1.elements[2] * v2.elements[1],
+            v1.elements[2] * v2.elements[0] - v1.elements[0] * v2.elements[2],
             v1.elements[0] * v2.elements[1] - v1.elements[1] * v2.elements[0]};
 }
 
