@@ -16,6 +16,7 @@ add_executable(my_test test_main.cpp)
 target_include_directories(my_test PRIVATE "${CMAKE_SOURCE_DIR}/include")
 target_include_directories(my_test PRIVATE "${CMAKE_SOURCE_DIR}/include/image")
 target_include_directories(my_test PRIVATE "${CMAKE_SOURCE_DIR}/include/camera")
+target_include_directories(my_test PRIVATE "${CMAKE_SOURCE_DIR}/include/object")
 target_include_directories(my_test PUBLIC "${CMAKE_SOURCE_DIR}/extern/stb")
 
 # exterのstb_image_write.hを共有ライブラリという形式で呼び出している

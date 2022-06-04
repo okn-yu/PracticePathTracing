@@ -10,21 +10,35 @@
 #ifndef PRACTICEPATHTRACING_PINHOLE_CAMERA_H
 #define PRACTICEPATHTRACING_PINHOLE_CAMERA_H
 
+#include <cassert>
+#include <cmath>
 #include "camera.h"
 
 class PinholeCamera : public Camera {
 public:
 
-    PinholeCamera(const Vec3 &_camPos, const Vec3 &_cam_sight_vec, float _sensor_dist) : Camera(_camPos,
-                                                                                                _cam_sight_vec
+    PinholeCamera(const Vec3 &_camPos, const Vec3 &_cam_sight_vec, float _sensor_dist, float _sensor_width,
+                  float _sensor_height) : Camera(_camPos,
+                                                _cam_sight_vec
     ) {
         sensor_dist = _sensor_dist;
+        sensor_height = _sensor_height;
+        sensor_width = _sensor_width;
     };
 
-    //イメージセンサー上の画素(u, v)に対応するRayを返す関数
+    /*
+     * (u, v)はイメージセンサーの4隅を(1, 1), (1, -1), (-1, 1), (-1, -1)と仮定した場合のセンサー上の位置
+     * sensor_widthとsensor_heightでセンサー上の座標に補正を行う
+     */
     Ray shoot(float u, float v) const override {
+        assert(-1 <= u && u <= 1);
+        assert(-1 <= v && v <= 1);
+        assert(abs(cam_right_vec.length() - 1) < 0.1);
+        assert((abs(cam_up_vec.length() - 1) < 0.1));
+        assert(abs(cam_sight_vec.length() - 1) < 0.1);
+
         Vec3 pinhole_pos = cam_pos + sensor_dist * cam_sight_vec;
-        Vec3 uv_pos = cam_pos + u * cam_right_vec + v * cam_up_vec;
+        Vec3 uv_pos = cam_pos + u * cam_right_vec * (sensor_width / 2) + v * cam_up_vec * (sensor_height / 2);
         Ray ray = Ray(uv_pos, (pinhole_pos - uv_pos).normalize());
 
         return ray;

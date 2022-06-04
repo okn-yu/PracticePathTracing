@@ -40,7 +40,6 @@ public:
     float sensor_height{};
     float sensor_width{};
     float sensor_dist{};
-    float aspect_ratio{};
 
     Camera(const Vec3 &_cam_pos, const Vec3 &_cam_sight_vec) : cam_pos(_cam_pos){
         /*
@@ -52,13 +51,6 @@ public:
          * 外積の向き:
          * 右ねじの法則と同じ
          * 外積の順序を逆にすると向きも逆となる
-         *
-         * カメラの視線方向:
-         * 一般に-z方向(0, 0, -1)をカメラの視線方向とする
-         * なぜ-z方向を視線とするのか
-         * センサーに映る像は原理上上下左右が反転する
-         * 右手系でx軸とy軸を反転するとz軸が(0, 0, -1)方向となり扱いが良いというのが回答
-         * こういうのは自分で手を動かすと自明だが最初は混乱する
          *
          * cam_sight_vec:カメラの視線方向
          * cam_right_vec:カメラの視線方向をz正方向としたときの右手系でのx正方向
