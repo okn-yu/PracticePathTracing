@@ -7,6 +7,7 @@
 #define PRACTICEPATHTRACING_COLOR_H
 
 #include <array>
+#include <cassert>
 #include "pixel.hpp"
 #include "vec3.hpp"
 
@@ -47,12 +48,7 @@ struct Color {
         data[2] = b;
     }
 
-    explicit Color(Vec3 v):Color(v.x(), v.y(), v.z()){}
-//    explicit Color(Vec3 v) {
-//        data[0] = v.x();
-//        data[1] = v.y();
-//        data[2] = v.z();
-//    }
+    explicit Color(Vec3 v) : Color(v.x(), v.y(), v.z()) {}
 
     float r() {
         return data[0];
@@ -85,7 +81,8 @@ bool operator==(const Color &src, const Color &dst) {
     return src.data == dst.data;
 }
 
-Color vec_2_color(Vec3 v) {
+Color normal_vec_2_color(Vec3 v) {
+    assert(std::abs(v.length() - 1) <= 0.1);
     if ((std::abs(v.x()) <= 1) && (std::abs(v.y()) <= 1) && (std::abs(v.z()) <= 1)) {
         Vec3 color_vec = (v + 1) / 2;
         return Color(color_vec);

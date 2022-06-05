@@ -12,9 +12,17 @@
 #include "vec3.hpp"
 
 struct HitRecord {
+public:
     Vec3 hit_pos;
     Vec3 hit_normal;
-    double t;
+    /*
+     *  複数オブジェクトの衝突判定をする場合に考慮にいれるのは最前面のオブジェクトのみ
+     *  そのためtはHitRecordの生成時に最初から値を設定しておく
+     */
+    float t;
+    HitRecord(){
+        t = 100;//static_cast<float>(ConstParam::RAY_T_MAX);
+    }
 };
 
 #endif //PRACTICEPATHTRACING_HITTABLE_H

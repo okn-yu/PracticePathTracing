@@ -35,22 +35,24 @@ TEST(PINHOLE_CAMERA_TEST, SQUSRE_RED_IMG) {
 
     for (int i = 0; i < img.width; i++) {
         for (int j = 0; j < img.height; j++) {
-            Color color = vec_2_color(Vec3(1, 0, 0));
+            Color color = Color(Vec3(1, 0, 0));
             RGBPixel pixel = color.pixalize();
 
             img.write_pixel(i, j, pixel);
         }
     }
     img.png_output("red_test.png", 3);
+    img.ppm_output("red_test.ppm");
+
 }
 
 TEST(PINHOLE_CAMERA_TEST, SQUSRE_GREEN_IMG) {
     Image<RGBPixel> img(256, 256);
-    PinholeCamera cam(Vec3(0, 0, 0), Vec3(0, 0, -1), 1, 2, 2);
+    PinholeCamera cam(Vec3(0, 1, 0), Vec3(0, 0, -1), 1, 2, 2);
 
     for (int i = 0; i < img.width; i++) {
         for (int j = 0; j < img.height; j++) {
-            Color color = vec_2_color(Vec3(0, 0, 1));
+            Color color = Color(Vec3(0, 1, 0));
             RGBPixel pixel = color.pixalize();
 
             img.write_pixel(i, j, pixel);
@@ -65,7 +67,7 @@ TEST(PINHOLE_CAMERA_TEST, SQUSRE_BLUE_IMG) {
 
     for (int i = 0; i < img.width; i++) {
         for (int j = 0; j < img.height; j++) {
-            Color color = vec_2_color(Vec3(0, 0, 1));
+            Color color = Color(Vec3(0, 0, 1));
             RGBPixel pixel = color.pixalize();
 
             img.write_pixel(i, j, pixel);
@@ -84,7 +86,7 @@ TEST(PINHOLE_CAMERA_TEST, RAY_DIRECTION_IMG) {
             float v = (2.0f * j - img.height) / img.height;
 
             Ray ray = cam.shoot(u, v);
-            Color color = vec_2_color(ray.direction.normalize());
+            Color color = normal_vec_2_color(ray.direction.normalize());
             RGBPixel pixel = color.pixalize();
             img.write_pixel(i, j, pixel);
         }
@@ -102,7 +104,7 @@ TEST(PINHOLE_CAMERA_TEST, SENSOR_SIZE) {
             float v = (2.0f * j - img.height) / img.height;
 
             Ray ray = cam.shoot(u, v);
-            Color color = vec_2_color(ray.direction.normalize());
+            Color color = normal_vec_2_color(ray.direction.normalize());
             RGBPixel pixel = color.pixalize();
             img.write_pixel(i, j, pixel);
         }
@@ -112,7 +114,7 @@ TEST(PINHOLE_CAMERA_TEST, SENSOR_SIZE) {
 
 TEST(PINHOLE_CAMERA_TEST, NORMAL_IMSGE) {
     Image<RGBPixel> img(256*2, 144*2);
-    PinholeCamera cam(Vec3(0, 5, 0), Vec3(0, -1, -1), 0.8, 1.6*0.5, 0.9*0.5);
+    PinholeCamera cam(Vec3(0, 0, 0), Vec3(0, 0, -1), 0.8, 1.6*0.5, 0.9*0.5);
     Sphere sphere = Sphere(Vec3(0, 0, -5), 1);
 
     for (int i = 0; i < img.width; i++) {
@@ -124,7 +126,7 @@ TEST(PINHOLE_CAMERA_TEST, NORMAL_IMSGE) {
             HitRecord hit_record;
             if(sphere.is_hittable(ray, hit_record)){
                 Vec3 normal_vec = hit_record.hit_normal;
-                Color color = vec_2_color(normal_vec.normalize());
+                Color color = normal_vec_2_color(normal_vec.normalize());
                 RGBPixel pixel = color.pixalize();
                 img.write_pixel(i, j, pixel);
 
@@ -157,7 +159,7 @@ TEST(PINHOLE_CAMERA_TEST, NORMAL_IMSGE2) {
                 if(normal_vec.length() != 1){
                     std::cout << 'error happened.' << std::endl;
                 }
-                Color color = vec_2_color(normal_vec.normalize());
+                Color color = normal_vec_2_color(normal_vec.normalize());
                 RGBPixel pixel = color.pixalize();
                 img.write_pixel(i, j, pixel);
 
@@ -185,7 +187,7 @@ TEST(PINHOLE_CAMERA_TEST, NORMAL_IMSGE3) {
             HitRecord hit_record;
             if(sphere.is_hittable(ray, hit_record)){
                 Vec3 normal_vec = hit_record.hit_normal;
-                Color color = vec_2_color(normal_vec.normalize());
+                Color color = normal_vec_2_color(normal_vec.normalize());
                 RGBPixel pixel = color.pixalize();
                 img.write_pixel(i, j, pixel);
             }else{
