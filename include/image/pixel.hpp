@@ -9,15 +9,6 @@
  * その場合serializeは単にpublicなdataを返せば済むのでそもそも定義する必要すらない
  * 上記を満たすように実装を修正した(5/29)
  *
- * ガンマ補正
- * 画像の色の明暗が出力機器で正しく表示されるように対象機器のガンマ値に応じた色の補正を行うこと
- * ただしガンマ補正では0および255近辺では影響を受けない
- *
- * ガンマ値の具体的な値はOSにより異なる
- * Windows系のOS:
- * ガンマ値は2.2のディスプレイを前提にしている
- * Mac系のOS:
- * ガンマ値は1.8のディスプレイを前提にしている
  */
 
 #ifndef PRACTICEPATHTRACING_PIXEL_CPP
@@ -25,6 +16,8 @@
 
 #include <iostream>
 #include <stack>
+#include <cmath>
+#include "config.hpp"
 
 struct GrayPixel {
     std::array<uint8_t, 1> data{};
@@ -45,7 +38,7 @@ struct GrayPixel {
         data[0] = n;
     }
 
-    uint8_t n(){
+    uint8_t n() {
         return data[0];
     }
 
@@ -98,20 +91,22 @@ struct RGBPixel {
         if (b < 0 || 255 < b) {
             throw std::runtime_error("invalid range");
         }
+
         data[0] = r;
         data[1] = g;
         data[2] = b;
+
     }
 
-    uint8_t r(){
+    uint8_t r() {
         return data[0];
     }
 
-    uint8_t g(){
+    uint8_t g() {
         return data[1];
     }
 
-    uint8_t b(){
+    uint8_t b() {
         return data[2];
     }
 

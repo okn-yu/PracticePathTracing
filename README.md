@@ -20,3 +20,7 @@
 
 ## PNG形式
 * https://suzulang.com/libpng-try-filewrite/
+
+## TODO:
+* test_clolrでガンマ補正の修正後の値で試験を成功させること
+* test_pinhole_cameraでカメラの視点がy軸に近い場合でも実行できるようにすること

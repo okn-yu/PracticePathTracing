@@ -10,6 +10,7 @@ struct ConstParam
     static const int HIT_DISTANCE_MAX = 10000;
     static const int HIT_DISTANCE_MIN = 0;
     constexpr static const double RAY_T_MAX = 100;
+    constexpr static const float GAMMA_VALUE = 1.8;
 };
 
 #endif //PRACTICEPATHTRACING_CONFIG_H
