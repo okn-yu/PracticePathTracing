@@ -105,10 +105,19 @@ struct Color {
             throw std::runtime_error("invalid range");
         }
 
-        // ガンマ補正の実行
-        data[0] = std::pow(r, 1/ConstParam::GAMMA_VALUE);//r;
-        data[1] = std::pow(g, 1/ConstParam::GAMMA_VALUE);//g;
-        data[2] = std::pow(b, 1/ConstParam::GAMMA_VALUE);//b;
+        /*
+         * ガンマ補正の実行
+         * 指数関数を利用するため計算量が多い
+         * flatのcolorではルックアップテーブルの適用が難しい
+         * Pixel側でルックアップテーブルを経由して実行するべき
+        data[0] = std::pow(r, 1/ConstParam::GAMMA_VALUE);
+        data[1] = std::pow(g, 1/ConstParam::GAMMA_VALUE);
+        data[2] = std::pow(b, 1/ConstParam::GAMMA_VALUE);
+        */
+
+        data[0] = r;
+        data[1] = g;
+        data[2] = b;
 
     }
 

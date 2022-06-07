@@ -75,15 +75,27 @@ TEST(RGBPixelTest, Constructor4) {
 }
 
 TEST(RGBPixelTest, Constructor5) {
-    EXPECT_EQ(RGBPixel(1, 2, 3).r(), 1);
+    EXPECT_EQ(RGBPixel(0, 1, 10).r(), 0);
 }
 
 TEST(RGBPixelTest, Constructor6) {
-    EXPECT_EQ(RGBPixel(1, 2, 3).g(), 2);
+    EXPECT_EQ(RGBPixel(0, 1, 10).g(), 11);
 }
 
 TEST(RGBPixelTest, Constructor7) {
-    EXPECT_EQ(RGBPixel(1, 2, 3).b(), 3);
+    EXPECT_EQ(RGBPixel(0, 1, 10).b(), 42);
+}
+
+TEST(RGBPixelTest, Constructor8) {
+    EXPECT_EQ(RGBPixel(253, 254, 255).r(), 253);
+}
+
+TEST(RGBPixelTest, Constructor9) {
+    EXPECT_EQ(RGBPixel(253, 254, 255).g(), 254);
+}
+
+TEST(RGBPixelTest, Constructor10) {
+    EXPECT_EQ(RGBPixel(253, 254, 255).b(), 255);
 }
 
 TEST(RGBPixelTest, Substitution) {
@@ -107,4 +119,11 @@ TEST(RGBPixelTest, TestThrow3) {
 TEST(RGBPixelTest, TestThrow4) {
     EXPECT_THROW(RGBPixel(-1, 2, 3), std::runtime_error);
 }
+
+//TEST(RGBPixelTest, Gammacorrection) {
+//    for (int i = 0; i < 256; i++) {
+//        int pixel = gamma_correction(i);
+//        std::cout << "{" << i << ", " << pixel << "}," << std::endl;
+//    }
+//}
 
