@@ -26,19 +26,16 @@ TEST(AGGREGATE_TEST, NORMAL_IMSGE3) {
             float v = (2.0f * j - img.height) / img.height;
 
             Ray ray = cam.shoot(u, v);
-            HitRecord hit_record = HitRecord(ConstParam::HIT_DISTANCE_MAX);
-            //hit_record.t = 10000;
+            HitRecord hit_record = HitRecord();
 
             if(aggregate.intersect(ray, hit_record)){
                 Vec3 normal_vec = hit_record.hit_normal;
                 Color color = normal_vec_2_color(normal_vec.normalize());
                 RGBPixel pixel = color.pixalize();
                 img.write_pixel(i, j, pixel);
-                //std::cout << "hit" << std::endl;
             }else{
                 RGBPixel pixel = RGBPixel();
                 img.write_pixel(i, j, pixel);
-                //std::cout << "no_hit" << std::endl;
             }
         }
     }

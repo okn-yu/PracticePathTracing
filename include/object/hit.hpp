@@ -11,7 +11,7 @@
 #include "ray.hpp"
 #include "vec3.hpp"
 
-struct HitRecord {
+class HitRecord {
 public:
     Vec3 hit_pos;
     Vec3 hit_normal;
@@ -20,8 +20,9 @@ public:
      *  そのためtはHitRecordの生成時に最初から値を設定しておく
      */
     float t;
-    explicit HitRecord(float _t){
-        t = _t;//static_cast<float>(ConstParam::RAY_T_MAX);
+
+    HitRecord(){
+        t = ConstParam::HIT_DISTANCE_MAX;
     }
 };
 
