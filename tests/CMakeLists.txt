@@ -2,9 +2,16 @@
 message("Start tests/CMake.")
 
 find_package(GTest REQUIRED)
+find_package(OpenMP REQUIRED)
 
 # 目的のパッケージが見つかったかの確認
 message("FOUND_GTest_PACKAGE?: '${GTest_FOUND}'")
+message("FOUND_OpenMP_PACKAGE?: '${OpenMP_FOUND}'")
+
+if(OpenMP_FOUND)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+endif()
 
 # add_ececutable:実行ファイルを作成する
 #下のようにadd_executableに追加すると宣言の重複となり失敗してしまう
