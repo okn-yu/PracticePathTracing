@@ -26,8 +26,8 @@ TEST(AGGREGATE_TEST, NORMAL_IMSGE3) {
             float v = (2.0f * j - img.height) / img.height;
 
             Ray ray = cam.shoot(u, v);
-            HitRecord hit_record = HitRecord();
-            hit_record.t = 10000;
+            HitRecord hit_record = HitRecord(ConstParam::HIT_DISTANCE_MAX);
+            //hit_record.t = 10000;
 
             if(aggregate.intersect(ray, hit_record)){
                 Vec3 normal_vec = hit_record.hit_normal;

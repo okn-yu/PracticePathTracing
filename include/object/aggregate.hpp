@@ -10,6 +10,7 @@
 #include "ray.hpp"
 #include "hit.hpp"
 #include "sphere.hpp"
+#include "config.hpp"
 
 class Aggregate {
 public:
@@ -29,7 +30,7 @@ public:
         bool is_hit = false;
 
         for (const auto& s: spheres) {
-            HitRecord hit_temp = HitRecord();
+            HitRecord hit_temp = HitRecord(ConstParam::HIT_DISTANCE_MAX);
             if (s->is_hittable(ray, hit_temp)) {
                 if (hit_temp.t < hit_rec.t) {
                     is_hit = true;

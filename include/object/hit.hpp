@@ -20,8 +20,8 @@ public:
      *  そのためtはHitRecordの生成時に最初から値を設定しておく
      */
     float t;
-    HitRecord(){
-        t = 100;//static_cast<float>(ConstParam::RAY_T_MAX);
+    explicit HitRecord(float _t){
+        t = _t;//static_cast<float>(ConstParam::RAY_T_MAX);
     }
 };
 

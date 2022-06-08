@@ -56,9 +56,9 @@ TEST(ColorTest, Constructor10) {
 TEST(ColorTest, pixalize1) {
     Color color = Color(0.1f, 0.3f, 0.5f);
     RGBPixel pixel = color.pixalize();
-    EXPECT_EQ(pixel.r(), 25);
-    EXPECT_EQ(pixel.g(), 76);
-    EXPECT_EQ(pixel.b(), 127);
+    EXPECT_EQ(pixel.r(), 70);
+    EXPECT_EQ(pixel.g(), 130);
+    EXPECT_EQ(pixel.b(), 173);
 }
 
 
