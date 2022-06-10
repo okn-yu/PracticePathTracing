@@ -5,6 +5,13 @@
  * 動作自体はするもののなぜか以下の警告が出てしまう
  * 調査が必要
  * Clang-Tidy: OpenMP directive 'parallel for' does not specify 'default' clause, consider specifying 'default(none)' clause
+ *
+ * 2022/6/10
+ * OpenMP:
+ * 並列計算機環境において共有メモリ・マルチスレッド型の並列アプリケーションソフトウェア開発をサポートするために標準化されたAPI
+ * 本当に高速化しているのか動作確認が必要
+ * http://www.eccse.kobe-u.ac.jp/assets/images/simulation_school/kobe-hpc-spring-intermediate2019/3dc2a486a4fb814eb28d79a136d990af3933934d.pdf
+ * https://qiita.com/kenmaro/items/a490bcabc2a9a3d3ce04
  */
 
 #include <gtest/gtest.h>
@@ -16,7 +23,6 @@
 #include "sphere.hpp"
 #include "aggregate.hpp"
 
-
 TEST(AGGREGATE_TEST, NORMAL_IMSGE3) {
     Image<RGBPixel> img(256 * 4, 144 * 4);
     PinholeCamera cam(Vec3(0, 0, 0), Vec3(0, 0, -1), 0.8, 1.6*0.5, 0.9*0.5);
@@ -25,7 +31,6 @@ TEST(AGGREGATE_TEST, NORMAL_IMSGE3) {
     Aggregate aggregate = Aggregate();
     aggregate.add(std::make_shared<Sphere>(Sphere(Vec3(0, 0, -5), 1)));
     aggregate.add(std::make_shared<Sphere>(Sphere(Vec3(0, -10001, 0), 10000)));
-
 
     #pragma omp parallel for schedule(dynamic, 1)
     for (int i = 0; i < img.width; i++) {
@@ -47,6 +52,6 @@ TEST(AGGREGATE_TEST, NORMAL_IMSGE3) {
             }
         }
     }
-    img.png_output("aggregate_test.png", 3);
+    img.png_output("aggregate_test2.png", 3);
 }
 
