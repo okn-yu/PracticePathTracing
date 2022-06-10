@@ -12,6 +12,7 @@
  * 本当に高速化しているのか動作確認が必要
  * http://www.eccse.kobe-u.ac.jp/assets/images/simulation_school/kobe-hpc-spring-intermediate2019/3dc2a486a4fb814eb28d79a136d990af3933934d.pdf
  * https://qiita.com/kenmaro/items/a490bcabc2a9a3d3ce04
+ * 一応これでもopenmpを入れることで2000msが1500msに短縮されている
  */
 
 #include <gtest/gtest.h>
