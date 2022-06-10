@@ -13,6 +13,8 @@
 #include "ray.hpp"
 #include "vec3.hpp"
 
+//extern const float HIT_DISTANCE_MAX;
+
 class HitRecord {
 public:
     Vec3 hit_pos;
@@ -20,7 +22,7 @@ public:
     float t;
 
     HitRecord() {
-        t = ConstParam::HIT_DISTANCE_MAX;
+        t = HIT_DISTANCE_MAX;
     }
 };
 

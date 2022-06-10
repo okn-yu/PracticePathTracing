@@ -418,7 +418,7 @@ std::ostream &operator<<(std::ostream &stream, const RGBPixel &pixel) {
 
 static uint8_t gamma_correction(int pixel) {
     float color = pixel / 255.0f;
-    uint8_t gamma_val = 255 * std::pow(color, 1 / ConstParam::GAMMA_VALUE);
+    uint8_t gamma_val = 255 * std::pow(color, 1 / GAMMA_VALUE);
     return gamma_val;
 }
 

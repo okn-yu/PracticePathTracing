@@ -33,17 +33,17 @@ public:
 
 
             // HIT_DISTANCE_MAX < t1 < t2
-            if (t1 > ConstParam::HIT_DISTANCE_MAX)
+            if (t1 > HIT_DISTANCE_MAX)
                 return false;
             // t1 < t2 < HIT_DISTANCE_MIN
-            if (t2 < ConstParam::HIT_DISTANCE_MIN)
+            if (t2 < HIT_DISTANCE_MIN)
                 return false;
             // t1 < HIT_DISTANCE_MIN, HIT_DISTANCE_MAX < t2
-            if (t1 < ConstParam::HIT_DISTANCE_MIN & ConstParam::HIT_DISTANCE_MAX < t2)
+            if (t1 < HIT_DISTANCE_MIN & HIT_DISTANCE_MAX < t2)
                 return false;
 
             // HIT_DISTANCE_MIN < t1 < t2
-            if (t1 > ConstParam::HIT_DISTANCE_MIN)
+            if (t1 > HIT_DISTANCE_MIN)
                 t = t1;
             // t1 < t2 < HIT_DISTANCE_MIN
             else
