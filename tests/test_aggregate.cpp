@@ -16,7 +16,6 @@
  */
 
 #include <gtest/gtest.h>
-#include <omp.h>
 #include "vec3.hpp"
 #include "image.hpp"
 #include "pinhole_camera.h"
@@ -24,7 +23,7 @@
 #include "sphere.hpp"
 #include "aggregate.hpp"
 
-TEST(AGGREGATE_TEST, NORMAL_IMSGE3) {
+TEST(AGGREGATE_TEST, NORMAL_IMSGE) {
     Image<RGBPixel> img(256 * 4, 144 * 4);
     PinholeCamera cam(Vec3(0, 0, 0), Vec3(0, 0, -1), 0.8, 1.6*0.5, 0.9*0.5);
     //PinholeCamera cam(Vec3(0, 0, 0), Vec3(0, 0, -1), 1, 1, 1);
@@ -53,6 +52,6 @@ TEST(AGGREGATE_TEST, NORMAL_IMSGE3) {
             }
         }
     }
-    img.png_output("aggregate_test2.png", 3);
+    img.png_output("aggregate_test.png", 3);
 }
 
