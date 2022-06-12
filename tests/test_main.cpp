@@ -13,7 +13,7 @@
 //#include "test_image.cpp"
 //#include "test_color.cpp"
 //#include "test_pinhole_camera.cpp
-//#include "test_aggregate.cpp"
+#include "test_aggregate.cpp"
 #include "test_antialias.cpp"
 
 

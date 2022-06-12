@@ -14,9 +14,13 @@ if(OpenMP_FOUND)
 endif()
 
 # add_ececutable:実行ファイルを作成する
-#下のようにadd_executableに追加すると宣言の重複となり失敗してしまう
-#add_executable(my_test test_main.cpp test_pixel.cpp test_ray.cpp test_vec3.cpp test_sphere.cpp test_image.cpp)
+# 下のようにadd_executableに追加すると宣言の重複となり失敗してしまう
+# add_executable(my_test test_main.cpp test_pixel.cpp test_ray.cpp test_vec3.cpp test_sphere.cpp test_image.cpp)
 add_executable(my_test test_main.cpp)
+
+# Compile Option
+# $ g++ -O3 -Wall ... (etc)
+target_compile_options(my_test PUBLIC -O3 -Wall)
 
 # target_include_directories:指定した実行ファイルにinclude_directoriesを指定する
 # つまり実行ファイルとヘッダーファイルの紐付けを行う

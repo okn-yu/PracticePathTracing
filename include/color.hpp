@@ -148,6 +148,20 @@ struct Color {
 
         return pixel;
     }
+
+    Color &operator+=(const Color &c) {
+        data[0] += c.data[0];
+        data[1] += c.data[1];
+        data[2] += c.data[2];
+        return *this;
+    }
+
+    Color &operator/=(const int n) {
+        data[0] /= n;
+        data[1] /= n;
+        data[2] /= n;
+        return *this;
+    }
 };
 
 bool operator==(const Color &src, const Color &dst) {
@@ -163,5 +177,11 @@ Color normal_vec_2_color(Vec3 v) {
         throw std::runtime_error("invalid vector length.");
     }
 }
+
+
+//Color vec_2_color(Vec3 v){
+//    Vec3 color_vec = (v + 1) / 2;
+//    return Color(color_vec);
+//}
 
 #endif //PRACTICEPATHTRACING_COLOR_H
