@@ -1,0 +1,10 @@
+/*
+ * Created by okn-yu on 2022/06/13.
+ *
+ * BRDF:双方向反射率分布関数
+ */
+
+#ifndef PRACTICEPATHTRACING_BRDF_HPP
+#define PRACTICEPATHTRACING_BRDF_HPP
+
+#endif //PRACTICEPATHTRACING_BRDF_HPP

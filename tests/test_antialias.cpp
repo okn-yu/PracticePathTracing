@@ -11,6 +11,7 @@
 #include "sphere.hpp"
 #include "aggregate.hpp"
 #include "utils.hpp"
+#include "omp.h"
 
 
 TEST(ANTIALIAS_TEST, AGGREGATE) {
@@ -22,7 +23,11 @@ TEST(ANTIALIAS_TEST, AGGREGATE) {
     aggregate.add(std::make_shared<Sphere>(Sphere(Vec3(0, 0, -5), 1)));
     aggregate.add(std::make_shared<Sphere>(Sphere(Vec3(0, -10001, 0), 10000)));
 
-    #pragma omp parallel for schedule(dynamic, 1)
+    int myid, nthreads;
+    nthreads = omp_get_num_threads();
+    std::cout << "nthreads: " << nthreads << std::endl;
+
+    #pragma omp parallel for default(img)
     for (int i = 0; i < img.width; i++) {
         for (int j = 0; j < img.height; j++) {
             Color avg_color = Color();
