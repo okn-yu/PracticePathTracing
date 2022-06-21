@@ -167,6 +167,10 @@ TEST(Vec3Test, unit_vec) {
     EXPECT_FLOAT_EQ(v2.length(), v2.normalize().length());
 }
 
+/*
+ *  local_2_worldとworld_2_localのテストコードを実装すること
+ *  ただそのためには3次元ベクトルの回転の実装が必要
+ */
 
 /*
 class TestVec3 : public ::testing::Test {

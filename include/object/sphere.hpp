@@ -6,17 +6,26 @@
 #define PRACTICEPATHTRACING_SPHERE_H
 
 #include <cmath>
+#include <memory>
+#include <utility>
 #include "config.hpp"
-#include "vec3.hpp"
-#include "ray.hpp"
 #include "hit.hpp"
+#include "light.hpp"
+#include "material.hpp"
+#include "ray.hpp"
+#include "vec3.hpp"
+
 
 class Sphere {
 public:
     Vec3 center;
     float radius;
+    std::shared_ptr<Material> material;
+    std::shared_ptr<PointLight> light;
 
-    Sphere(const Vec3 &_center, float _radius) : center(_center), radius(_radius) {};
+    Sphere(const Vec3 &_center, float _radius, std::shared_ptr<Material> _material,
+           std::shared_ptr<PointLight> _light) : center(_center), radius(_radius),
+                                                  material(_material), light(_light) {};
 
     bool is_hittable(Ray &ray, HitRecord &hit_record) const {
         float b = dot(ray.direction, ray.origin - center);
@@ -45,11 +54,12 @@ public:
             // HIT_DISTANCE_MIN < t1 < t2
             if (t1 > HIT_DISTANCE_MIN)
                 t = t1;
-            // t1 < t2 < HIT_DISTANCE_MIN
+                // t1 < t2 < HIT_DISTANCE_MIN
             else
                 t = t2;
 
             hit_record.t = t;
+            hit_record.hit_object = this;
             hit_record.hit_pos = ray(t);
             hit_record.hit_normal = (hit_record.hit_pos - center).normalize();
 

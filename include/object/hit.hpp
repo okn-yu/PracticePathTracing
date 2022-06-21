@@ -11,14 +11,16 @@
 
 #include "config.hpp"
 #include "ray.hpp"
+//#include "sphere.hpp"
 #include "vec3.hpp"
 
-//extern const float HIT_DISTANCE_MAX;
+class Sphere;
 
 class HitRecord {
 public:
     Vec3 hit_pos;
     Vec3 hit_normal;
+    const Sphere * hit_object;
     float t;
 
     HitRecord() {

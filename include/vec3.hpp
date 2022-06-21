@@ -10,8 +10,10 @@
 #ifndef PRACTICEPATHTRACING_VEC3_H
 #define PRACTICEPATHTRACING_VEC3_H
 
-#include <iostream>
+#include <array>
 #include <cmath>
+#include <iostream>
+
 
 class Vec3 {
 public:
@@ -42,7 +44,7 @@ public:
         return elements[0];
     }
 
-    float y() {
+    float y() const {
         return elements[1];
     }
 
@@ -92,6 +94,27 @@ public:
         elements[2] -= v.elements[2];
         return *this;
     }
+
+    Vec3& operator*=(const Vec3& v) {
+        elements[0] *= v.elements[0];
+        elements[1] *= v.elements[0];
+        elements[2] *= v.elements[0];
+        return *this;
+    };
+
+    Vec3& operator/=(const Vec3& v) {
+        elements[0] /= v.elements[0];
+        elements[1] /= v.elements[0];
+        elements[2] /= v.elements[0];
+        return *this;
+    };
+
+    Vec3& operator/=(const float k) {
+        elements[0] /= k;
+        elements[1] /= k;
+        elements[2] /= k;
+        return *this;
+    };
 };
 
 /*
@@ -184,31 +207,55 @@ inline Vec3 unit_vec(Vec3 v) {
     return v / v.length();
 }
 
-/*
-void orthonormalBasis(const Vec3 &v1, Vec3 &v2, Vec3 &v3) {
-    //Vec3は(0, 1, 0)か(1, 0, 0)のいずれか
-    if (std::abs(v1.x) > 0.9f)
-        v2 = Vec3(0.0f, 1.0f, 0.0f);
-    else
-        v2 = Vec3(1.0f, 0.0f, 0.0f);
 
-    v2 = (v2 - dot(v1, v2) * v1).normalize();
+void orthonormal_basis(Vec3& v1, Vec3& v2, Vec3& v3){
+    // v1が特定の軸と重複しないことを保証するために軸を予め2本用意しておく
+    Vec3 tmp;
+    if (std::abs(v1.x()) > 0.9f)
+        tmp = Vec3(0.0f, 1.0f, 0.0f);
+    else
+        tmp = Vec3(1.0f, 0.0f, 0.0f);
+
+    // dot(v1, v2)は常に0なのでv1とv2は直交
+    v2 = (tmp - dot(v1, tmp) * v1).normalize();
+    // 外積なのでv1とv2は常に直交
     v3 = cross(v1, v2);
 }
-*/
+
 
 /*
-Vec3 worldToLocal(const Vec3 &v, const Vec3 &s, const Vec3 &n, const Vec3 &t) {
+ *  系同士のベクトルの変換
+ */
+
+/*
+ * 与えられた世界系のベクトルをローカル系の正規直交規定でのベクトルに変換する
+ * vは変換対象の世界系のベクトル
+ * s, n, tはローカル系の正規直交基底
+ * 単純に内積を計算して射影しているだけ（これはわかる）
+ */
+Vec3 world_2_local(const Vec3 &v, const Vec3 &s, const Vec3 &n, const Vec3 &t) {
     return {dot(v, s), dot(v, n), dot(v, t)};
 }
 
-Vec3 localToWorld(const Vec3 &v, const Vec3 &s, const Vec3 &n, const Vec3 &t) {
-    Vec3 a = Vec3(s.x, n.x, t.x);
-    Vec3 b = Vec3(s.y, n.y, t.y);
-    Vec3 c = Vec3(s.z, n.z, t.z);
+/*
+ * 与えられたローカル系のベクトルを世界系のベクトルに変換する
+ * vは変換対象のローカル系のベクトル
+ * s, n, tはローカル系の正規直交基底
+ * a, b, cはローカル系の正規直交基底で表現したワールド系の正規直交規定
+ * 手順としてはローカル系の正規直交基底からワールド系の正規直交規定を算出する
+ * 算出したワールド系の正規直交基底に内積をかけて各成分の射影を算出する
+ *
+ * vはs,n,tの3成分に分解される
+ * 各成分毎にローカル基底のワールド基底への射影を計算し合算すれば良い
+ * (v_s * s_x + v_n * n_x + v_t * t_x) : x成分
+ *
+ */
+Vec3 local_2_world(Vec3 &v, Vec3 &s, Vec3 &n, Vec3 &t) {
+    Vec3 a = Vec3(s.x(), n.x(), t.x());
+    Vec3 b = Vec3(s.y(), n.y(), t.y());
+    Vec3 c = Vec3(s.z(), n.z(), t.z());
 
     return {dot(v, a), dot(v, b), dot(v, c)};
 }
-*/
 
 #endif //PRACTICEPATHTRACING_VEC3_H

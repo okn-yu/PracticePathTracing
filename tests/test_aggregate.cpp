@@ -18,6 +18,7 @@
 #include <gtest/gtest.h>
 #include "vec3.hpp"
 #include "image.hpp"
+#include "diffuse.hpp"
 #include "pinhole_camera.h"
 #include "color.hpp"
 #include "sphere.hpp"
@@ -32,7 +33,19 @@ TEST(AGGREGATE_TEST, NORMAL_IMSGE) {
     aggregate.add(std::make_shared<Sphere>(Sphere(Vec3(0, 0, -5), 1)));
     aggregate.add(std::make_shared<Sphere>(Sphere(Vec3(0, -10001, 0), 10000)));
 
-    #pragma omp parallel for schedule(dynamic, 1)
+    /*
+    auto mat1 = std::make_shared<Diffuse>(Vec3(0.9));
+    auto mat2 = std::make_shared<Diffuse>(Vec3(0.2, 0.2, 0.8));
+
+    auto light1 = std::make_shared<PointLight>(Vec3(0));
+    auto light2 = std::make_shared<PointLight>(Vec3(0));
+
+    Aggregate aggregate = Aggregate();
+    aggregate.add(std::make_shared<Sphere>(Sphere(Vec3(0, 0, -5), 1, mat1, light1));
+    aggregate.add(std::make_shared<Sphere>(Sphere(Vec3(0, -10001, 0), 10000, mat2, light2));
+    */
+
+#pragma omp parallel for schedule(dynamic, 1)
     for (int i = 0; i < img.width; i++) {
         for (int j = 0; j < img.height; j++) {
             float u = (2.0f * i - img.width) / img.width;

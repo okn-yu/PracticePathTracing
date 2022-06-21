@@ -35,6 +35,7 @@ public:
     // std::vector<std::shared_ptr<T>> objects {100, std::make_shared<T>()};
     Image(int _width, int _height) : width(_width), height(_height) {
         // TODO:もっと良い初期化方法を探すこと
+        // cf:    auto mat2 = std::make_shared<Diffuse>(Vec3(0.2, 0.2, 0.8));
         for (int i = 0; i < width * height; i++) {
             pixels.push_back(std::make_shared<T>());
         }

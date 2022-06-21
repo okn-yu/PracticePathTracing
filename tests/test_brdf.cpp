@@ -4,19 +4,21 @@
 
 
 #include <gtest/gtest.h>
+#include <memory>
 #include "aggregate.hpp"
 #include "color.hpp"
-#include "diffuse.hpp"
 #include "image.hpp"
+#include "diffuse.hpp"
 #include "light.hpp"
 #include "mirror.hpp"
 #include "omp.h"
 #include "pinhole_camera.h"
+#include "render.hpp"
 #include "sphere.hpp"
 #include "utils.hpp"
 #include "vec3.hpp"
 
-TEST(ANTIALIAS_TEST, AGGREGATE) {
+TEST(BRDF_TEST, BRDF) {
     Image<RGBPixel> img(256 * 4, 144 * 4);
     PinholeCamera cam(Vec3(0, 0, 0), Vec3(0, 0, -1), 0.8, 1.6 * 0.5, 0.9 * 0.5);
     //PinholeCamera cam(Vec3(0, 0, 0), Vec3(0, 0, -1), 1, 1, 1);
@@ -38,30 +40,23 @@ TEST(ANTIALIAS_TEST, AGGREGATE) {
     #pragma omp parallel for schedule(dynamic, 1)
     for (int i = 0; i < img.width; i++) {
         for (int j = 0; j < img.height; j++) {
-            Color avg_color = Color();
+            Vec3 avg_color = Vec3();
             for (int k = 0; k < SUPER_SAMPLING; k++) {
-
                 float u = (2.0f * (i + rnd()) - img.width) / img.width;
                 float v = (2.0f * (j + rnd()) - img.height) / img.height;
-
-                Ray ray = cam.shoot(u, v);
-                HitRecord hit_record = HitRecord();
-                RGBPixel pixel;
-                Color color;
-
-                if (aggregate.intersect(ray, hit_record)) {
-                    Vec3 normal_vec = hit_record.hit_normal;
-                    color = normal_vec_2_color(normal_vec.normalize());
-                }else {
-                    color = Color();
-                }
+                Ray init_ray = cam.shoot(u, v);
+                Vec3 color = radiance(init_ray, aggregate);
                 avg_color += color;
+
             }
+
+            //std::cout << "avg_color: " << avg_color << std::endl;
+
             avg_color /= SUPER_SAMPLING;
-            RGBPixel pixel = avg_color.pixalize();
+            Color avg_color2 = Color(avg_color.x(), avg_color.y(), avg_color.z());
+            RGBPixel pixel = avg_color2.pixalize();
             img.write_pixel(i, j, pixel);
         }
-        img.png_output("antialias_test.png", 3);
+        img.png_output("brdf_test.png", 3);
     }
 }
-

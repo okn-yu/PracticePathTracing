@@ -61,6 +61,10 @@
  *
  * 余談
  * 画像処理100本ノックは周りに紹介したほうが良い
+ *
+ * 2022/06/17
+ * Colorクラス同士でも演算が増えてきてVec3クラスとの差があまりなくなってきた
+ * 残念である
  */
 
 #ifndef PRACTICEPATHTRACING_COLOR_H
@@ -89,6 +93,11 @@ struct Color {
     template<typename T, typename U, typename F>
     Color(T r, U g, F b) {
         throw std::runtime_error("not float argument");
+    }
+
+    template<typename T>
+    Color(T c) {
+        Color(c, c, c);
     }
 
     Color(float r, float g, float b) {
@@ -149,6 +158,7 @@ struct Color {
         return pixel;
     }
 
+
     Color &operator+=(const Color &c) {
         data[0] += c.data[0];
         data[1] += c.data[1];
@@ -160,6 +170,13 @@ struct Color {
         data[0] /= n;
         data[1] /= n;
         data[2] /= n;
+        return *this;
+    }
+
+    Color &operator*=(const float n) {
+        data[0] *= n;
+        data[1] *= n;
+        data[2] *= n;
         return *this;
     }
 };
@@ -179,9 +196,16 @@ Color normal_vec_2_color(Vec3 v) {
 }
 
 
-//Color vec_2_color(Vec3 v){
-//    Vec3 color_vec = (v + 1) / 2;
-//    return Color(color_vec);
-//}
+inline Color operator/(const Color &v, const float k) {
+    return {v.data[0] / k, v.data[1] / k, v.data[2] / k};
+}
+
+inline Color operator*(const Color &v, const float k) {
+    return {v.data[0] * k, v.data[1] * k, v.data[2] * k};
+}
+
+inline Color operator*(const float k, const Color &v) {
+    return v * k;
+}
 
 #endif //PRACTICEPATHTRACING_COLOR_H
