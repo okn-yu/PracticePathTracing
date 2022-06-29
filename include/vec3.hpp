@@ -97,15 +97,15 @@ public:
 
     Vec3& operator*=(const Vec3& v) {
         elements[0] *= v.elements[0];
-        elements[1] *= v.elements[0];
-        elements[2] *= v.elements[0];
+        elements[1] *= v.elements[1];
+        elements[2] *= v.elements[2];
         return *this;
     };
 
     Vec3& operator/=(const Vec3& v) {
         elements[0] /= v.elements[0];
-        elements[1] /= v.elements[0];
-        elements[2] /= v.elements[0];
+        elements[1] /= v.elements[1];
+        elements[2] /= v.elements[2];
         return *this;
     };
 

@@ -65,6 +65,9 @@
  * 2022/06/17
  * Colorクラス同士でも演算が増えてきてVec3クラスとの差があまりなくなってきた
  * 残念である
+ *
+ * 2022/06/22
+ * Colorが負はありえないがレンダリング方程式の計算結果でRGBの上限が1を超過する場合はある
  */
 
 #ifndef PRACTICEPATHTRACING_COLOR_H
@@ -102,16 +105,28 @@ struct Color {
 
     Color(float r, float g, float b) {
 
-        if (r < 0 || 1 < r) {
-            throw std::runtime_error("invalid range");
+        if (r < 0) {
+            throw std::runtime_error("r is invalid range : " +  std::to_string(r));
         }
 
-        if (g < 0 || 1 < g) {
-            throw std::runtime_error("invalid range");
+        if(1 < r){
+            r = 1;
         }
 
-        if (b < 0 || 1 < b) {
-            throw std::runtime_error("invalid range");
+        if (g < 0) {
+            throw std::runtime_error("g is invalid range: " +  std::to_string(g));
+        }
+
+        if(1 < g){
+            g = 1;
+        }
+
+        if (b < 0) {
+            throw std::runtime_error("b is invalid range: " +  std::to_string(b));
+        }
+
+        if(1 < b){
+            b = 1;
         }
 
         /*
@@ -145,9 +160,19 @@ struct Color {
     }
 
     RGBPixel pixalize() {
-        assert(0 <= data[0] && data[0] <= 1);
-        assert(0 <= data[1] && data[1] <= 1);
-        assert(0 <= data[2] && data[2] <= 1);
+        assert(0 <= data[0] && 0 <= data[1] && 0 <= data[2]);
+
+        if(1 <= data[0]){
+            data[0] = 1;
+        }
+
+        if(1 <= data[1]){
+            data[1] = 1;
+        }
+        if(1 <= data[2]){
+            data[2] = 1;
+        }
+
 
         auto R = static_cast<int>(data[0] * 255);
         auto G = static_cast<int>(data[1] * 255);

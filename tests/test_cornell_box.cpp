@@ -1,7 +1,6 @@
 /*
- * Created by okn-yu on 2022/06/11.
+ * Created by okn-yu on 2022/06/27.
  */
-
 
 #include <gtest/gtest.h>
 #include <memory>
@@ -18,20 +17,33 @@
 #include "utils.hpp"
 #include "vec3.hpp"
 
-TEST(BRDF_TEST, BRDF) {
+TEST(CORNELL_BOX_TEST, TEST) {
     Image<RGBPixel> img(256 * 4, 144 * 4);
-    PinholeCamera cam(Vec3(0, 0, 0), Vec3(0, 0, -1), 0.6, 1.6 * 0.5, 0.9 * 0.5);
+    //Image<RGBPixel> img(128 * 2, 128 * 2);
+    PinholeCamera cam(Vec3(0, 0, 3), Vec3(0, 0, -1), 0.6, 1.6 * 0.5, 0.9 * 0.5);
 
-    //auto mat1 = std::make_shared<Mirror>();
-    auto mat1 = std::make_shared<Diffuse>(Vec3(1, 0, 0));
-    auto mat2 = std::make_shared<Diffuse>(Vec3(0.2, 0.2, 0.8));
+    auto mat1 = std::make_shared<Diffuse>(Vec3(0.8));
+    auto mat2 = std::make_shared<Diffuse>(Vec3(0.8, 0.2, 0.2));
+    auto mat3 = std::make_shared<Diffuse>(Vec3(0.2, 0.8, 0.2));
 
     auto light1 = std::make_shared<PointLight>(Vec3(0));
-    auto light2 = std::make_shared<PointLight>(Vec3(0.2, 0.2, 0.8));
+    auto light2 = std::make_shared<PointLight>(Vec3(10));
 
     Aggregate aggregate = Aggregate();
-    aggregate.add(std::make_shared<Sphere>(Sphere(Vec3(0, 0, -6), 1, mat2, light2)));
+    // 床
     aggregate.add(std::make_shared<Sphere>(Sphere(Vec3(0, -10001, 0), 10000, mat1, light1)));
+    // 右の壁
+    aggregate.add(std::make_shared<Sphere>(Sphere(Vec3(10006, 0, -6), 10000, mat2, light1)));
+    // 左の壁
+    aggregate.add(std::make_shared<Sphere>(Sphere(Vec3(-10006, 0, -6), 10000, mat3, light1)));
+    // 天井
+    //aggregate.add(std::make_shared<Sphere>(Sphere(Vec3(0, 10003, 0), 10000, mat1, light1)));
+    // 後ろの壁
+    aggregate.add(std::make_shared<Sphere>(Sphere(Vec3(0, 0, -10012), 10000, mat1, light1)));
+    // 球
+    aggregate.add(std::make_shared<Sphere>(Sphere(Vec3(0, 0, -6), 1, mat1, light1)));
+    // 光源
+    aggregate.add(std::make_shared<Sphere>(Sphere(Vec3(0, 3, -6), 1, mat1, light2)));
 
     #pragma omp parallel for schedule(dynamic, 1)
     for (int i = 0; i < img.width; i++) {
@@ -43,16 +55,17 @@ TEST(BRDF_TEST, BRDF) {
                 Ray init_ray = cam.shoot(u, v);
                 Vec3 color = radiance(init_ray, aggregate);
                 avg_color += color;
-
             }
 
-            // std::cout << "avg_color: " << avg_color << std::endl;
+            if(omp_get_thread_num() == 0) {
+                std::cout << double(j + i*img.height)/(img.width*img.height) * 100 << "\r" << std::flush;
+            }
 
             avg_color /= SUPER_SAMPLING;
             Color avg_color2 = Color(avg_color.x(), avg_color.y(), avg_color.z());
             RGBPixel pixel = avg_color2.pixalize();
             img.write_pixel(i, j, pixel);
         }
-        img.png_output("brdf_test.png", 3);
+        img.png_output("cornell_box_test.png", 3);
     }
 }

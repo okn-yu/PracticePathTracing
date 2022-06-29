@@ -364,15 +364,15 @@ struct RGBPixel {
     RGBPixel(int r, int g, int b) {
 
         if (r < 0 || 255 < r) {
-            throw std::runtime_error("invalid range");
+            throw std::runtime_error("r is invalid range: " +  std::to_string(r));
         }
 
         if (g < 0 || 255 < g) {
-            throw std::runtime_error("invalid range");
+            throw std::runtime_error("g is invalid range: " + std::to_string(g));
         }
 
         if (b < 0 || 255 < b) {
-            throw std::runtime_error("invalid range");
+            throw std::runtime_error("b is invalid range: " + std::to_string(b));
         }
 
         data[0] = LUT[r];//gamma_correction(r);

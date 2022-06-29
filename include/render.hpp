@@ -44,6 +44,7 @@ Vec3 radiance(const Ray &init_ray, const Aggregate &aggregate) {
             auto hit_material = res.hit_object->material;
             auto hit_light = res.hit_object->light;
 
+            // この項はhit_light->colorがゼロではない自発光の物体でのみ有効となる
             output_color += throughput * hit_light->color;
 
             Vec3 brdf;
@@ -56,17 +57,17 @@ Vec3 radiance(const Ray &init_ray, const Aggregate &aggregate) {
             throughput *= (brdf * cos) / pdf;
             ray = Ray(res.hit_pos + 0.001 * res.hit_normal, wi_world);
 
-            /*
-            std::cout << "pdf: " << pdf << std::endl;
-            std::cout << "brdf: " << brdf << std::endl;
-            std::cout << "cos: " << cos << std::endl;
-            std::cout << "wi_local: " << wi_local << std::endl;
-            std::cout << "throughput: " << throughput << std::endl;
-            std::cout << "output_color: " << output_color << std::endl;
-            */
+//            std::cout << "pdf: " << pdf << std::endl;
+//            std::cout << "brdf: " << brdf << std::endl;
+//            std::cout << "cos: " << cos << std::endl;
+//            std::cout << "wi_local: " << wi_local << std::endl;
+//            std::cout << "throughput: " << throughput << std::endl;
+//            std::cout << "output_color: " << output_color << std::endl;
 
         } else {
-            output_color += throughput * Vec3(1);
+            // ここでは最終的なVec3(1, 1, 1)が光源となる。
+            // 物体に衝突しない=レイが空に飛ぶ
+            output_color += throughput * Vec3(0);
 //            std::cout << "broken!" << std::endl;
 //            std::cout << "throughput: " << throughput << std::endl;
 //            std::cout << "output_color: " << output_color << std::endl;
