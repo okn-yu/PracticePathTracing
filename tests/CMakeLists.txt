@@ -25,6 +25,7 @@ target_compile_options(my_test PUBLIC -O3 -Wall)
 # target_include_directories:指定した実行ファイルにinclude_directoriesを指定する
 # つまり実行ファイルとヘッダーファイルの紐付けを行う
 target_include_directories(my_test PRIVATE "${CMAKE_SOURCE_DIR}/include")
+target_include_directories(my_test PRIVATE "${CMAKE_SOURCE_DIR}/include/background")
 target_include_directories(my_test PRIVATE "${CMAKE_SOURCE_DIR}/include/image")
 target_include_directories(my_test PRIVATE "${CMAKE_SOURCE_DIR}/include/camera")
 target_include_directories(my_test PRIVATE "${CMAKE_SOURCE_DIR}/include/object")
