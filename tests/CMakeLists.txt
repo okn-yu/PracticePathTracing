@@ -8,12 +8,13 @@ find_package(OpenMP REQUIRED)
 message("FOUND_GTest_PACKAGE?: '${GTest_FOUND}'")
 message("FOUND_OpenMP_PACKAGE?: '${OpenMP_FOUND}'")
 
-if(OpenMP_FOUND)
+if (OpenMP_FOUND)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-endif()
+endif ()
 
-# add_ececutable:実行ファイルを作成する
+# add_ececutable:実行ファイル（実行可能なファイルで実行するとプログラムが動作する）を作成する
+# ただしこの実行ファイルはライブラリのリンクがなされていない
 # 下のようにadd_executableに追加すると宣言の重複となり失敗してしまう
 # add_executable(my_test test_main.cpp test_pixel.cpp test_ray.cpp test_vec3.cpp test_sphere.cpp test_image.cpp)
 add_executable(my_test test_main.cpp)
@@ -33,14 +34,21 @@ target_include_directories(my_test PRIVATE "${CMAKE_SOURCE_DIR}/include/lights")
 target_include_directories(my_test PRIVATE "${CMAKE_SOURCE_DIR}/include/materials")
 target_include_directories(my_test PUBLIC "${CMAKE_SOURCE_DIR}/extern/stb")
 
+
 # exterのstb_image_write.hを共有ライブラリという形式で呼び出している
+# このadd_libraryでライブラリ(XXX.soおよびXXX.a)を作成する
 add_library(stb_image_write SHARED "${CMAKE_SOURCE_DIR}/extern/stb/stb_image_write.h")
+add_library(stb_image SHARED "${CMAKE_SOURCE_DIR}/extern/stb/stb_image.h")
+
+# 作成したライブラリのパスを取得する
 target_include_directories(stb_image_write PUBLIC "${PROJECT_SOURCE_DIR}/include")
+target_include_directories(stb_image PUBLIC "${PROJECT_SOURCE_DIR}/include/background")
+
 set_target_properties(stb_image_write PROPERTIES LINKER_LANGUAGE CXX)
+set_target_properties(stb_image PROPERTIES LINKER_LANGUAGE CXX)
 
-# target_link_libraries:作成済みの実行ファイルにライブラリのリンクを行う
+# target_link_libraries:作成済みの実行ファイルにコンパイル済みのライブラリ(libXXX.soおよびlibXXX.a)のリンクを行う
 # "実行ファイルの作成"という手続きと、"実行ファイルにライブラリのリンク"という手続きは別であることに注意
-target_link_libraries(my_test gtest gtest_main pthread stb_image_write)
+target_link_libraries(my_test gtest gtest_main pthread stb_image_write stb_image)
 
-# コメントを書く
 gtest_add_tests(TARGET my_test)

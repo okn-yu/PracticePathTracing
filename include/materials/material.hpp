@@ -26,15 +26,6 @@ public:
 };
 
 /*
- *  nは法線ベクトル
- *  vは面に入射したベクトル
- */
-
-Vec3 reflect(Vec3 v, Vec3 n) {
-    return -v + 2 * dot(v, n) * n;
-}
-
-/*
  *  TODO:以下を確認すること
  *  ローカル座標系では法線n=(0, 1, 0)と過程する
  */
@@ -42,4 +33,50 @@ float cos_theta(const Vec3 &v){
     return v.y();
 }
 
+/*
+ * cos_thetaでは物体の内部から外部に光が出る場合にcosineの値が負となりレンダリング結果が合わない場合がある
+ * そのためcosineの値が負とならないように絶対値をつけることで対応する
+ */
+
+float abs_cos_theta(const Vec3 &v){
+    return std::abs(v.y());
+}
+
+/*
+ *  鏡にオブジェクトにレイが入社したばあ
+ */
+
+Vec3 reflect(Vec3 v_in, Vec3 n) {
+    return -v_in + 2 * dot(v_in, n) * n;
+}
+
+/*
+ * 屈折率のあるオブジェクトにレイが入射した場合を扱う
+ */
+
+bool reflect(const Vec3 &v_in, Vec3 &v_ref, const Vec3 &n, float n_in, float n_out) {
+
+    float cos = abs_cos_theta(v_in);
+    float sin = std::sqrt(std::max(1 - cos * cos, 0.0f));
+    float alpha = (n_in / n_out) * sin;
+
+    // total reflection
+    if (alpha * alpha > 1.0f) return false;
+
+    v_ref = (n_in / n_out) * (-v_in + dot(v_in, n) * n) - std::sqrt((1 - alpha * alpha)) * n;
+    return true;
+
+}
+
+
+/*
+ *
+ */
+
+float fresnel(const Vec3& v_in, const Vec3& n, float n_in, float n_out){
+    float f0 = std::pow((n_in - n_out)/(n_in + n_out), 2.0f);
+    float cos = abs_cos_theta(v_in);
+
+    return f0 + (1.0f - f0)*std::pow(1.0f - cos, 5.0f);
+}
 #endif //PRACTICEPATHTRACING_MATERIAL_H

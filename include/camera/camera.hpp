@@ -39,7 +39,7 @@
 
 class Camera {
 public:
-    Vec3 cam_pos; // center of sensor
+    Vec3 cam_pos; // イメージセンサーの中心をcam_posとして定義する
     Vec3 cam_sight_vec;
     Vec3 cam_right_vec;
     Vec3 cam_up_vec;

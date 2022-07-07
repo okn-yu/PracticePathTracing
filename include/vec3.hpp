@@ -40,7 +40,7 @@ public:
         elements[2] = _z;
     };
 
-    float x() {
+    float x() const {
         return elements[0];
     }
 
@@ -48,7 +48,7 @@ public:
         return elements[1];
     }
 
-    float z() {
+    float z() const {
         return elements[2];
     }
 

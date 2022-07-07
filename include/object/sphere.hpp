@@ -36,10 +36,9 @@ public:
         if (D < 0) {
             return false;
         } else {
-            //t1 <= t2
+            // t1 <= t2
             float t1 = -b - std::sqrt(D);
             float t2 = -b + std::sqrt(D);
-
 
             // HIT_DISTANCE_MAX < t1 < t2
             if (t1 > HIT_DISTANCE_MAX)
@@ -51,10 +50,13 @@ public:
             if (t1 < HIT_DISTANCE_MIN & HIT_DISTANCE_MAX < t2)
                 return false;
 
-            // HIT_DISTANCE_MIN < t1 < t2
+            // 衝突の結果t1もしくはt2が採用される
+            // t1が採用されるのは下の場合のみ
+            // HIT_DISTANCE_MIN < t1　< HIT_DISTANCE_MAX,  t2とHIT_DISTANCE_MAXの関係は任意
             if (t1 > HIT_DISTANCE_MIN)
                 t = t1;
-                // t1 < t2 < HIT_DISTANCE_MIN
+            // t2が採用されるのは以下の場合のみ
+            // t1 < HIT_DISTANCE_MIN < t2　< HIT_DISTANCE_MAX
             else
                 t = t2;
 

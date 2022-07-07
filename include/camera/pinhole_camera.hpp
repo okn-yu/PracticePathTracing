@@ -12,14 +12,14 @@
 
 #include <cassert>
 #include <cmath>
-#include "camera.h"
+#include "camera.hpp"
 
 class PinholeCamera : public Camera {
 public:
 
     PinholeCamera(const Vec3 &_camPos, const Vec3 &_cam_sight_vec, float _sensor_dist, float _sensor_width,
                   float _sensor_height) : Camera(_camPos,
-                                                _cam_sight_vec
+                                                 _cam_sight_vec
     ) {
         sensor_dist = _sensor_dist;
         sensor_height = _sensor_height;
@@ -33,9 +33,9 @@ public:
     Ray shoot(float u, float v) const override {
         assert(-1 <= u && u <= 1);
         assert(-1 <= v && v <= 1);
-        assert(abs(cam_right_vec.length() - 1) < 0.1);
-        assert((abs(cam_up_vec.length() - 1) < 0.1));
-        assert(abs(cam_sight_vec.length() - 1) < 0.1);
+        assert(std::abs(cam_right_vec.length() - 1) < 0.1);
+        assert((std::abs(cam_up_vec.length() - 1) < 0.1));
+        assert(std::abs(cam_sight_vec.length() - 1) < 0.1);
 
         Vec3 pinhole_pos = cam_pos + sensor_dist * cam_sight_vec;
         Vec3 uv_pos = cam_pos + u * cam_right_vec * (sensor_width / 2) + v * cam_up_vec * (sensor_height / 2);

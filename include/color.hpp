@@ -106,7 +106,8 @@ struct Color {
     Color(float r, float g, float b) {
 
         if (r < 0) {
-            throw std::runtime_error("r is invalid range : " +  std::to_string(r));
+            // throw std::runtime_error("r is invalid range : " +  std::to_string(r));
+            r = 0;
         }
 
         if(1 < r){
@@ -114,7 +115,8 @@ struct Color {
         }
 
         if (g < 0) {
-            throw std::runtime_error("g is invalid range: " +  std::to_string(g));
+            // throw std::runtime_error("g is invalid range: " +  std::to_string(g));
+            g = 0;
         }
 
         if(1 < g){
@@ -122,7 +124,8 @@ struct Color {
         }
 
         if (b < 0) {
-            throw std::runtime_error("b is invalid range: " +  std::to_string(b));
+            // throw std::runtime_error("b is invalid range: " +  std::to_string(b));
+            b = 0;
         }
 
         if(1 < b){
@@ -160,7 +163,18 @@ struct Color {
     }
 
     RGBPixel pixalize() {
-        assert(0 <= data[0] && 0 <= data[1] && 0 <= data[2]);
+        //assert(0 <= data[0] && 0 <= data[1] && 0 <= data[2]);
+
+        if(data[0] < 0){
+            data[0] = 0;
+        }
+
+        if(data[1] < 0){
+            data[1] = 0;
+        }
+        if(data[2] < 0){
+            data[2] = 0;
+        }
 
         if(1 <= data[0]){
             data[0] = 1;

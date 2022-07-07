@@ -17,8 +17,56 @@
 #include "config.hpp"
 #include "hit.hpp"
 #include "ray.hpp"
+#include "background/sky.hpp"
 #include "utils.hpp"
 #include "vec3.hpp"
+
+Vec3 radiance(const Ray &init_ray, const Aggregate &aggregate, Sky &sky) {
+    Vec3 output_color;
+    Vec3 throughput(1);
+    Ray ray = init_ray;
+
+    for (int depth = 0; depth < MAX_DEPTH; depth++) {
+        HitRecord res;
+
+        if (aggregate.intersect(ray, res)) {
+            Vec3 n = res.hit_normal;
+            Vec3 s, t;
+            orthonormal_basis(n, s, t);
+
+            Vec3 wo_local = world_2_local(-ray.direction, s, n, t);
+
+            auto hit_material = res.hit_object->material;
+            auto hit_light = res.hit_object->light;
+
+            // この項はhit_light->colorがゼロではない自発光の物体でのみ有効となる
+            output_color += throughput * hit_light->color;
+
+            Vec3 brdf;
+            Vec3 wi_local;
+            float pdf;
+            brdf = hit_material->sample(wo_local, wi_local, pdf);
+            float cos = abs_cos_theta(wi_local);
+
+            Vec3 wi_world = local_2_world(wi_local, s, n, t);
+            throughput *= (brdf * cos) / pdf;
+            //ray = Ray(res.hit_pos + 0.001 * res.hit_normal, wi_world);
+            ray = Ray(res.hit_pos, wi_world);
+
+        } else {
+            output_color += throughput * sky.getRadiance(ray);
+            break;
+        }
+
+        if (rnd() >= ROULETTE) {
+            break;
+        } else {
+            throughput /= ROULETTE;
+        }
+
+    }
+    return output_color;
+}
 
 Vec3 radiance(const Ray &init_ray, const Aggregate &aggregate) {
     Vec3 output_color;
@@ -33,12 +81,6 @@ Vec3 radiance(const Ray &init_ray, const Aggregate &aggregate) {
             Vec3 s, t;
             orthonormal_basis(n, s, t);
 
-            /*
-            std::cout << dot(n, s) << std::endl;
-            std::cout << dot(n, t) << std::endl;
-            std::cout << dot(s, t) << std::endl;
-            */
-
             Vec3 wo_local = world_2_local(-ray.direction, s, n, t);
 
             auto hit_material = res.hit_object->material;
@@ -51,27 +93,15 @@ Vec3 radiance(const Ray &init_ray, const Aggregate &aggregate) {
             Vec3 wi_local;
             float pdf;
             brdf = hit_material->sample(wo_local, wi_local, pdf);
-            float cos = cos_theta(wi_local);
+            float cos = abs_cos_theta(wi_local);
 
             Vec3 wi_world = local_2_world(wi_local, s, n, t);
             throughput *= (brdf * cos) / pdf;
-            ray = Ray(res.hit_pos + 0.001 * res.hit_normal, wi_world);
-
-//            std::cout << "pdf: " << pdf << std::endl;
-//            std::cout << "brdf: " << brdf << std::endl;
-//            std::cout << "cos: " << cos << std::endl;
-//            std::cout << "wi_local: " << wi_local << std::endl;
-//            std::cout << "throughput: " << throughput << std::endl;
-//            std::cout << "output_color: " << output_color << std::endl;
+            //ray = Ray(res.hit_pos + 0.001 * res.hit_normal, wi_world);
+            ray = Ray(res.hit_pos, wi_world);
 
         } else {
-            // ここでは最終的なVec3(1, 1, 1)が光源となる。
-            // 物体に衝突しない=レイが空に飛ぶ
-            output_color += throughput * Vec3(0);
-//            std::cout << "broken!" << std::endl;
-//            std::cout << "throughput: " << throughput << std::endl;
-//            std::cout << "output_color: " << output_color << std::endl;
-
+            output_color += throughput * Vec3(1);
             break;
         }
 
