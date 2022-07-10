@@ -16,11 +16,11 @@
  */
 
 #include <gtest/gtest.h>
-#include "vec3.hpp"
+#include "core/vec3.hpp"
 #include "image.hpp"
 #include "diffuse.hpp"
 #include "pinhole_camera.h"
-#include "color.hpp"
+#include "core/color.hpp"
 #include "sphere.hpp"
 #include "aggregate.hpp"
 

@@ -7,10 +7,10 @@
 
 #include <memory>
 #include <vector>
-#include "ray.hpp"
-#include "hit.hpp"
-#include "sphere.hpp"
-#include "config.hpp"
+#include "core/ray.hpp"
+#include "object/hit.hpp"
+#include "object/sphere.hpp"
+#include "core/config.hpp"
 
 class Aggregate {
 public:

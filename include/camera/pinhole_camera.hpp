@@ -12,7 +12,7 @@
 
 #include <cassert>
 #include <cmath>
-#include "camera.hpp"
+#include "camera/camera.hpp"
 
 class PinholeCamera : public Camera {
 public:

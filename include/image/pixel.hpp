@@ -40,7 +40,7 @@
 #include <stack>
 #include <cmath>
 #include <array>
-#include "config.hpp"
+#include "core/config.hpp"
 
 std::map<uint8_t, uint8_t> LUT{
         {0,   0},

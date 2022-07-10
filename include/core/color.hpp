@@ -76,8 +76,8 @@
 #include <array>
 #include <cassert>
 #include <cmath>
-#include "pixel.hpp"
-#include "vec3.hpp"
+#include "image/pixel.hpp"
+#include "core/vec3.hpp"
 
 struct Color {
     /*

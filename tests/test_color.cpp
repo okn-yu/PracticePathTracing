@@ -3,8 +3,8 @@
  */
 
 #include <gtest/gtest.h>
-#include "color.hpp"
-#include "vec3.hpp"
+#include "core/color.hpp"
+#include "core/vec3.hpp"
 #include "pixel.hpp"
 
 /*

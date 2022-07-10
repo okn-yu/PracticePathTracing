@@ -4,18 +4,18 @@
 
 #include <gtest/gtest.h>
 #include <memory>
-#include "aggregate.hpp"
-#include "color.hpp"
+#include "object/aggregate.hpp"
+#include "core/color.hpp"
 #include "image.hpp"
 #include "diffuse.hpp"
 #include "light.hpp"
 #include "omp.h"
 #include "pinhole_camera.h"
-#include "render.hpp"
+#include "../src/render/render.cpp"
 #include "sky.hpp"
 #include "sphere.hpp"
-#include "utils.hpp"
-#include "vec3.hpp"
+#include "core/utils.hpp"
+#include "core/vec3.hpp"
 
 TEST(SKY_TEST, SIMPLE_SKY) {
     Image<RGBPixel> img(256 * 4, 144 * 4);

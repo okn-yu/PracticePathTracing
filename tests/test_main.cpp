@@ -6,7 +6,7 @@
  */
 
 #include "gtest/gtest.h"
-#include "test_pixel.cpp"
+//#include "test_pixel.cpp"
 //#include "test_vec3.cpp"
 //#include "test_ray.cpp"
 //#include "test_sphere.cpp"
@@ -15,12 +15,12 @@
 //#include "test_pinhole_camera.cpp
 //#include "test_aggregate.cpp"
 //#include "test_antialias.cpp"
-//#include "test_brdf.cpp"
+#include "test_brdf.cpp"
 //#include "test_cornell_box.cpp"
 //#include "test_sky.cpp"
 //#include "test_glass.cpp"
 //#include "test_ibl.cpp"
-#include "test_thinlens.cpp"
+//#include "test_thinlens.cpp"
 
 
 int main(int argc, char **argv)

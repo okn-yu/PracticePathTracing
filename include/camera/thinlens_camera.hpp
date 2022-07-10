@@ -29,9 +29,9 @@
 
 #include <cassert>
 #include <cmath>
-#include "camera.hpp"
-#include "utils.hpp"
-#include "vec3.hpp"
+#include "camera/camera.hpp"
+#include "core/utils.hpp"
+#include "core/vec3.hpp"
 
 void sample_disk(float &x, float &y) {
     float r = rnd();

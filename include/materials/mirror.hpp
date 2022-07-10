@@ -5,10 +5,10 @@
 #ifndef PRACTICEPATHTRACING_MIRROR_H
 #define PRACTICEPATHTRACING_MIRROR_H
 
-#include "color.hpp"
-#include "material.hpp"
-#include "utils.hpp"
-#include "vec3.hpp"
+#include "core/color.hpp"
+#include "materials/material.hpp"
+#include "core/utils.hpp"
+#include "core/vec3.hpp"
 
 
 class Mirror : public Material {

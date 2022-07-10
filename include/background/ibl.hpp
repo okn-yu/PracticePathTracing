@@ -28,9 +28,9 @@
 #define PRACTICEPATHTRACING_IBL_H
 
 #include <string>
-#include "ray.hpp"
-#include "sky.hpp"
-#include "vec3.hpp"
+#include "core/ray.hpp"
+#include "background/sky.hpp"
+#include "core/vec3.hpp"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"

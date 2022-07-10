@@ -20,9 +20,9 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 
 #include "stb_image_write.h"
-#include "vec3.hpp"
-#include "pixel.hpp"
-#include "utils.hpp"
+#include "core/vec3.hpp"
+#include "image/pixel.hpp"
+#include "core/utils.hpp"
 
 
 template<typename T>

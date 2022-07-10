@@ -9,10 +9,9 @@
 #ifndef PRACTICEPATHTRACING_HITTABLE_H
 #define PRACTICEPATHTRACING_HITTABLE_H
 
-#include "config.hpp"
-#include "ray.hpp"
-//#include "sphere.hpp"
-#include "vec3.hpp"
+#include "core/config.hpp"
+#include "core/ray.hpp"
+#include "core/vec3.hpp"
 
 class Sphere;
 

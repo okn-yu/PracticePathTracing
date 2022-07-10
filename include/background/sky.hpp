@@ -5,8 +5,8 @@
 #ifndef PRACTICEPATHTRACING_SKY_H
 #define PRACTICEPATHTRACING_SKY_H
 
-#include "../vec3.hpp"
-#include "../ray.hpp"
+#include "core/vec3.hpp"
+#include "core/ray.hpp"
 
 class Sky {
 public:

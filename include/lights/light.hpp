@@ -5,7 +5,7 @@
 #ifndef PRACTICEPATHTRACING_LIGHT_H
 #define PRACTICEPATHTRACING_LIGHT_H
 
-#include "vec3.hpp"
+#include "core/vec3.hpp"
 
 /*
  * すべての方向に等しい放射輝度を返す

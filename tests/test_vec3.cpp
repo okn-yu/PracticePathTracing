@@ -6,7 +6,7 @@
 
 #include <iostream>
 #include <gtest/gtest.h>
-#include "vec3.hpp"
+#include "core/vec3.hpp"
 
 TEST(Vec3Test, Constructor1) {
     EXPECT_EQ(Vec3().x(), 0);

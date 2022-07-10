@@ -13,13 +13,13 @@
 #ifndef PRACTICEPATHTRACING_RENDER_H
 #define PRACTICEPATHTRACING_RENDER_H
 
-#include "aggregate.hpp"
-#include "config.hpp"
-#include "hit.hpp"
-#include "ray.hpp"
+#include "object/aggregate.hpp"
+#include "core/config.hpp"
+#include "object/hit.hpp"
+#include "core/ray.hpp"
 #include "background/sky.hpp"
-#include "utils.hpp"
-#include "vec3.hpp"
+#include "core/utils.hpp"
+#include "core/vec3.hpp"
 
 Vec3 radiance(const Ray &init_ray, const Aggregate &aggregate, Sky &sky) {
     Vec3 output_color;

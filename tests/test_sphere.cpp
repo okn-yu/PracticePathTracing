@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 #include "object/hit.hpp"
-#include "ray.hpp"
+#include "core/ray.hpp"
 #include "object/sphere.hpp"
 
 TEST(SphereTest, RayHit) {

@@ -8,12 +8,12 @@
 #include <cmath>
 #include <memory>
 #include <utility>
-#include "config.hpp"
-#include "hit.hpp"
-#include "light.hpp"
-#include "material.hpp"
-#include "ray.hpp"
-#include "vec3.hpp"
+#include "core/config.hpp"
+#include "object/hit.hpp"
+#include "lights/light.hpp"
+#include "materials/material.hpp"
+#include "core/ray.hpp"
+#include "core/vec3.hpp"
 
 
 class Sphere {

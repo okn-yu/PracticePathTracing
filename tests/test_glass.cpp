@@ -5,19 +5,19 @@
 #include <gtest/gtest.h>
 #include <memory>
 #include "aggregate.hpp"
-#include "color.hpp"
+#include "core/color.hpp"
 #include "image.hpp"
 #include "diffuse.hpp"
 #include "glass.hpp"
 #include "light.hpp"
 #include "mirror.hpp"
 #include "omp.h"
-#include "pinhole_camera.h"
-#include "render.hpp"
+#include "pinhole_camera.hpp"
+#include "../src/render/render.cpp"
 #include "sky.hpp"
 #include "sphere.hpp"
-#include "utils.hpp"
-#include "vec3.hpp"
+#include "core/utils.hpp"
+#include "core/vec3.hpp"
 
 TEST(GLASS_TEST, GLASS) {
     Image<RGBPixel> img(256 * 4, 144 * 4);

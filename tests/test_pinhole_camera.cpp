@@ -2,10 +2,10 @@
  * Created by okn-yu on 2022/05/06.
  */
 #include <gtest/gtest.h>
-#include "vec3.hpp"
+#include "core/vec3.hpp"
 #include "image.hpp"
 #include "pinhole_camera.h"
-#include "color.hpp"
+#include "core/color.hpp"
 #include "sphere.hpp"
 
 // 慣例とは逆にカメラの視線方向は(0, 0, 1)
