@@ -14,8 +14,8 @@
 #ifndef PRACTICEPATHTRACING_CAMERA_H
 #define PRACTICEPATHTRACING_CAMERA_H
 
-#include "core/vec3.hpp"
-#include "core/ray.hpp"
+#include "core/vec3.h"
+#include "core/ray.h"
 
 /*
  * Cameraの位置と視線方向が定まればセンサーの平面は（視線を回転軸として回転の自由度はあるものの）定まる

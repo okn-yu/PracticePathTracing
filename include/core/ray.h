@@ -7,11 +7,11 @@
 #define PRACTICEPATHTRACING_RAY_H
 
 #include <iostream>
-#include "core/vec3.hpp"
+#include "core/vec3.h"
 
 class Ray {
 public:
-    Vec3 origin;
+    Point3 origin;
     Vec3 direction;
 
     Ray(const Vec3& _origin, const Vec3& _direction) : origin(_origin), direction(_direction) {};
