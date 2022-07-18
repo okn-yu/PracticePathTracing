@@ -76,7 +76,8 @@ public:
     float cam_sensor_width;
     float cam_sensor_dist;
 
-    Camera(const Vec3 &_cam_sensor_pos, const Vec3 &_cam_sight_vec, float _cam_sensor_width, float _cam_sensor_height, float _cam_sensor_dist){
+    Camera(const Point3 &_cam_sensor_pos, const Vec3 &_cam_sight_vec, float _cam_sensor_width, float _cam_sensor_height,
+           float _cam_sensor_dist) {
 
         cam_sensor_pos = _cam_sensor_pos;
 
@@ -99,7 +100,6 @@ public:
          * デバッグを考えるとセンサーのアスペクト比が1:1は望ましくない
          * 横16:縦9の一般的なモニターの比率が望ましい
          */
-
         cam_sensor_width = _cam_sensor_width;
         cam_sensor_height = _cam_sensor_height;
         cam_sensor_dist = _cam_sensor_dist;
