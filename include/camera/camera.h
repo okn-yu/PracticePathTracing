@@ -1,82 +1,137 @@
 /*
  * Created by okn-yu on 2022/05/05.
- * カメラは3次元の物体を2次元に投影する透視投影を利用する
- * 視点はカメラのレンズ
- * 投影面上に3次元の物体が投影されている
- * センサーのアスペクト比と投影面のアスペクト比は一致する
- * https://cc.musabi.ac.jp/zoukei_file/03/seizu/NewFiles/touei.html
  *
- * 座標系に関して
- * (x, y, z)はワールド座標系の正規直交基底
- * (u, v, w)はカメラ座標系の正規直交基底　
+ * C++の文法補足:
+ * 仮想関数
  */
 
 #ifndef PRACTICEPATHTRACING_CAMERA_H
 #define PRACTICEPATHTRACING_CAMERA_H
 
+#include <cassert>
 #include "core/vec3.h"
 #include "core/ray.h"
 
 /*
- * Cameraの位置と視線方向が定まればセンサーの平面は（視線を回転軸として回転の自由度はあるものの）定まる
- * センサー平面で上方向と横方向を定義すればセンサーの配置は一位に定まる
- * センサーの縦方向はワールド座標の上向き（y軸正）の単位ベクトルを回転面に射影して取得する
- * センサーの横方向は視線方向と上方向の外積経由で取得する
- * センサーの大きさを極端に小さくするとRayの射出角度が狭くなるので、非常に狭い範囲のみしか撮影できなくなる
- * センサーから投影点までの距離が遠いと画角が狭くなり近いと画角が広くなる
- * 画像のピクセル数はセンサーの分割数に相当する
- * ピクセルの分割数が多いほど投影面の分割数が増える
- * 投影面のピンホールからの距離を伸ばせば投影面のサイズも拡大する一方、単位ピクセルあたり長さも増大する
- * そのため投影面のピンホールからの距離をどのように設定しても最終的な出力は変わらない
- * 画像の精度を上げるには単位面積あたりのピクセル密度を上げる必要がある
+ * デジタルカメラの原理:
+ * 外部からの光をイメージセンサで電気信号に変換している
  *
- * カメラは画像センサー（受光素子）が光を受光したら、センサー上でRGB or (CMYK)に光から電気信号へ変換を行う
- * この段階で人が認識できる色からRGB色空間に制限がかかる
- * 一方CGでは最終出力までは離散的な波長を扱うことができるというメリットがある
- * ただしRGBモニターで出力するので最終的な形式はRGBのまま
+ * イメージセンサ:
+ * 1.カラーフィルタでRGBの3成分に分解
+ * 2.RGBの成分毎に受光素子で電気信号に変換後
+ * 3.アンプで増大してRGB値の輝度値を算出
+ * 代表的なイメージセンサはCMOSやCCDなどがある
  *
+ * 受光素子(フォトダイオード/光検出器):
+ * 光を照射したときにその光の強さを電流に変換する受光素子
+ *
+ * 参考URL:
+ * https://www.spdigital.net/digi-came/digi-came-03
+ */
+
+/*
+ * 座標の命名規則:
+ * (x, y, z)はワールド座標系の正規直交基底
+ * (u, v, w)はカメラ座標系（より正確にはセンサ座標系）の正規直交基底　
+ *
+ * 右手系:
+ * x: 右手の親指
+ * y: 右手の人差し指
+ * z: 右手の中指
+ */
+
+/*
+ * Cameraクラス
+ * 今後実装する様々な種類のCameraの基底クラス
+ * Cameraクラスのメンバには原則命名時に接頭辞としてcam_をつける
+ *
+ * cam_sensor_pos:イメージセンサの中心のワールド座標系での座標
+ * cam_sight_vec:カメラの視線方向
+ * cam_right_vec:カメラの視線方向をz正方向としたときの右手系でのx正方向
+ * cam_up_vec:カメラの視線方向をz正方向としたときの右手系でのy正方向
+ *
+ * cam_sensor_posとcam_sight_vecとcam_sensor_distが定まればセンサの平面は回転の自由度を除いて定まる
+ * センサの上方向はワールド座標の上向き（y軸正）の単位ベクトルと視線方向の外積で取得する
+ * センサの横方向は視線方向と上方向の外積で取得する
+ * ただしこの手法では視線方向とワールド座標の上向きが並行だと失敗する
+ *
+ * cam_sensor_height:イメージセンサの高さ
+ * cam_sensor_width:イメージセンサの幅
+ * cam_sensor_dist:イメージセンサとレンズ間の距離
+ *
+ * レンダリングにより生成される画像のアスペクト比は、イメージセンサのアスペクト比と等しい
+ * レンダリングにより生成される画像のピクセル数はレイのサンプリング間隔に依存する
+ * そのため画像の画質（ピクセルの密度）を上げるにはレイのサンプリング間隔を密にすればよいが、計算時間がかかる
+ * センサの大きさを極端に小さくするとRayの射出角度が狭くなるので狭い範囲のみしか撮影できなくなる
+ * センサからレンズまでの距離が遠いと画角が狭くなり近いと画角が広くなる
  */
 
 class Camera {
 public:
-    Vec3 cam_pos; // イメージセンサーの中心をcam_posとして定義する
+    Point3 cam_sensor_pos;
     Vec3 cam_sight_vec;
-    Vec3 cam_right_vec;
+    Vec3 cam_side_vec;
     Vec3 cam_up_vec;
-    float sensor_height{};
-    float sensor_width{};
-    float sensor_dist{};
+    float cam_sensor_height;
+    float cam_sensor_width;
+    float cam_sensor_dist;
 
-    Camera(const Vec3 &_cam_pos, const Vec3 &_cam_sight_vec) : cam_pos(_cam_pos){
-        /*
-         * 右手系:
-         * x: 右手の親指
-         * y: 右手の人差し指
-         * z: 右手の中指
+    Camera(const Vec3 &_cam_sensor_pos, const Vec3 &_cam_sight_vec, float _cam_sensor_width, float _cam_sensor_height, float _cam_sensor_dist){
+
+        cam_sensor_pos = _cam_sensor_pos;
+
+        /* 一番素直な実装はcam_sight_vecの回転と連動してcam_side_vecとcam_up_vecも変換されるのが最も望ましい
+         * 初期状態では各ベクトルは以下のように与えられる
+         * cam_sight_vec: (0, 0, 1)
+         * cam_right_vec: (1, 0, 0)
+         * cam_up_vec: (0, 1, 0)
          *
-         * 外積の向き:
-         * 右ねじの法則と同じ
-         * 外積の順序を逆にすると向きも逆となる
-         *
-         * cam_sight_vec:カメラの視線方向
-         * cam_right_vec:カメラの視線方向をz正方向としたときの右手系でのx正方向
-         * cam_up_vec:カメラの視線方向をz正方向としたときの右手系でのy正方向
+         * 任意の正規化されたcam_sight_vecは(0, 0, 1)のx軸回転とy軸回転の組み合わせで表すことができる
+         * 同等の回転をcam_right_vecおよびcam_up_vecに作用させればよい
          */
-        cam_sight_vec = _cam_sight_vec.normalize();
-        cam_right_vec = cross(Vec3(0, 1, 0), cam_sight_vec).normalize();
-        cam_up_vec = cross(cam_sight_vec, cam_right_vec).normalize();
+        cam_sight_vec = unit_vec(_cam_sight_vec);
+        float _theta_x = _rot_x_angle();
+        float _theta_y = _rot_y_angle();
+        cam_side_vec = rotation_y(rotation_x(Vec3(1, 0, 0), _theta_x), _theta_y);
+        cam_up_vec = rotation_y(rotation_x(Vec3(0, 1, 0), _theta_x), _theta_y);
+
+        /*
+         * デバッグを考えるとセンサーのアスペクト比が1:1は望ましくない
+         * 横16:縦9の一般的なモニターの比率が望ましい
+         */
+
+        cam_sensor_width = _cam_sensor_width;
+        cam_sensor_height = _cam_sensor_height;
+        cam_sensor_dist = _cam_sensor_dist;
+
     };
 
     /*
-     * (u, v)はセンサー上のワールド座標をcam_right_vecおよびcam_up_vecを用いた表現したときの係数
+     * (u, v)はセンサ上のワールド座標系で表された任意の座標を、cam_right_vecおよびcam_up_vecを基底として表現したときの係数に相当する
      * 例:
-     * ワールド座標系で(1, -1, 0)の点（センサー右下）
-     * cam_right_vecが(-1, 0, 0), cam_up_vecが(0, 1, 0)の場合(u, v) = (-1, -1)となる
-     * virtualは仮想関数
-     * 仮想関数にしないと継承した子クラスの処理は親クラスの処理を上書きできない
-     * const = 0; は仮想関数を記載する際のお約束
+     *  ワールド座標系で(1, -1, 0)のセンサー右下の点の場合
+     *  cam_right_vecが(-1, 0, 0), cam_up_vecが(0, 1, 0)の場合であれば、(u, v) = (-1, -1)として与えられる
      */
+
+    /*
+    * virtualは仮想関数でポリモーフィズムの実現に利用される
+    * const = 0; は仮想関数を記載する際のお約束
+    */
     virtual Ray shoot(float u, float v) const = 0;
+
+private:
+    /*
+     * rot_x_angle, rot_y_angle関数
+     * x軸->y軸の順で回転操作を実施したと過程した場合に、(0, 0, 1)がcam_sight_vecと一致するような回転角を求める
+     */
+
+    float _rot_x_angle() const {
+        return asin(-cam_sight_vec.y());
+    }
+
+    float _rot_y_angle() const {
+        return acos(cam_sight_vec.z() / sqrt(1 - pow(cam_sight_vec.y(), 2)));
+    }
 };
 
 #endif //PRACTICEPATHTRACING_CAMERA_H
