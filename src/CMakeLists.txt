@@ -1,7 +1,10 @@
-# TODO: testsで同様の書き方では失敗するため調査が必要
+if(CMAKE_DEBUG_OPT)
+    message("Start /src/CMake.")
+endif()
 
-# message:デバッグ用途のためコンソールに出力する
-message("Start src/CMake.")
+# futaba support libraries
+add_subdirectory(libcore)
 
-# 実行ファイルのビルド
-add_executable(main main.cpp)
+# futaba executables
+add_subdirectory(futaba)
+
