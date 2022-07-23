@@ -5,19 +5,23 @@
  *
  * Note:
  * レイや座標や色など数値が3つセットで1つのオブジェクトは数多く存在する
- * それらを全てVecクラスとして実装可能であり個別にクラスを定義しても良い
+ * それらを全てVec3クラスとして実装可能であり個別にクラスを定義しても良い
  * ここでは座標クラスをVec3のエイリアスでPoint3として定義している
+ * 座標クラスは実体としてはVec3クラスと等価である
  *
  * C++の文法補足:
- * -変換コンストラクタ
- * -constメンバ関数
- * -const引数
+ * 変換コンストラクタ
+ * constメンバ関数
+ * const引数
+ * エイリアス宣言
+ * inline展開
  */
 
 #ifndef PRACTICEPATHTRACING_VEC3_H
 #define PRACTICEPATHTRACING_VEC3_H
 
 #include <array>
+#include <cassert>
 #include <cmath>
 #include <iostream>
 
@@ -133,6 +137,9 @@ public:
  * inline展開: 高速化のため関数の内容を直接呼び出し元に展開すること
  * inline展開を用いない場合は、関数呼び出しには関数の定義元のアドレスまで参照するため時間がかかる
  * 明示的にinline修飾子をつけることでコンパイラにinline展開を強制させる
+ * ただし以下のような欠点も存在する
+ * inline展開を多用するとソースコードが肥大化しビルド時間が増える
+ * 人ではなくコンパイラにinlineの利用を決定させるほうが高速化する場合がある
  * https://qiita.com/omuRice/items/9e31d9ba17b32703b3b1
  */
 
@@ -199,6 +206,55 @@ inline Vec3 operator/(const float k, const Vec3 &v) {
 }
 
 /*
+ * 回転行列
+ * 3次元の回転の場合各回転軸に対して回転角を定義することで、回転操作を定義できる
+ * 回転軸としてx, y, z軸を選べば回転の自由度は3となる
+ * ただし回転の場合は回転の順番により結果が異なることに注意
+ * また回転軸としてx, y, z軸以外の任意の軸を指定することもできる
+ */
+
+/*
+ * rot_x関数
+ * x軸回りにthetaラジアン回転させる回転行列
+ */
+
+inline Vec3 rotation_x(Vec3 vec, float theta)
+{
+    float x = vec.x();
+    float y = vec.y() * cos(theta) - vec.z() * sin(theta);
+    float z = vec.y() * sin(theta) + vec.z() * cos(theta);
+    return {x, y, z};
+}
+
+
+/*
+ * rot_y関数
+ * x軸回りにthetaラジアン回転させる回転行列
+ */
+
+inline Vec3 rotation_y(Vec3 vec, float theta)
+{
+    float x = vec.x() * cos(theta) + vec.z() * sin(theta);
+    float y = vec.y();
+    float z = -vec.x() * sin(theta) + vec.z() * cos(theta);
+    return {x, y, z};
+}
+
+/*
+ * rot_z関数
+ * x軸回りにthetaラジアン回転させる回転行列
+ */
+
+inline Vec3 rotation_z(Vec3 vec, float theta)
+{
+    float x = vec.x() * cos(theta) - vec.y() * sin(theta);
+    float y = vec.x() * sin(theta) + vec.y() * sin(theta);
+    float z = vec.z();
+    return {x, y, z};
+}
+
+/*
+ * orthonormal_basis関数:
  * 与えられた1つのベクトルから正規直交基底を求める
  *
  * src_vecは(0.0f, 1.0f, 0.0f)と平行の可能性がある
@@ -215,14 +271,14 @@ inline Vec3 unit_vec(Vec3 v) {
     return v / v.length();
 }
 
-void orthonormal_basis(Vec3 &src_vec, Vec3 &base_v2, Vec3 &base_v3) {
+void orthonormal_basis(const Vec3 &src_vec, Vec3 &base_v2, Vec3 &base_v3) {
+    assert(src_vec.length() == 1);
     Vec3 tmp;
     if (std::abs(src_vec.x()) > 0.9f)
         tmp = Vec3(0.0f, 1.0f, 0.0f);
     else
         tmp = Vec3(1.0f, 0.0f, 0.0f);
 
-    src_vec = unit_vec(src_vec);
     base_v2 = unit_vec(tmp - dot(src_vec, tmp) * src_vec);
     base_v3 = cross(src_vec, base_v2);
 }
@@ -232,6 +288,7 @@ void orthonormal_basis(Vec3 &src_vec, Vec3 &base_v2, Vec3 &base_v3) {
  */
 
 /*
+ * world_2_local関数:
  * 与えられた世界系のベクトルを、ローカル系で定義された正規直交基底を用いて書き直す
  * world_vはワールド系の正規直交基底で定義された変換対象の世界系のベクトル
  * s, n, tはワールド系の正規直交基底で定義されたローカル系の正規直交基底
@@ -242,6 +299,7 @@ Vec3 world_2_local(const Vec3 &world_v, const Vec3 &s, const Vec3 &n, const Vec3
 }
 
 /*
+ * local_2_world関数:
  * 与えられたローカル系のベクトルを、ワールド系で定義された正規直交基底を用いて書き直す
  * vはローカル系の正規直交基底で定義された変換対象のローカル系のベクトル
  * s, n, tはワールド系の正規直交基底で定義されたローカル系の正規直交基底
@@ -271,6 +329,14 @@ inline std::ostream &operator<<(std::ostream &stream, const Vec3 &v) {
     return stream;
 }
 
+/*
+ * エイリアス宣言:
+ * typedefと同様に、指定した名前の別名を与える
+ * エイリアス宣言はtypedefと同じ意味を持つ
+ *
+ * ここではPoint3クラスとColorクラスをVec3のエイリアスとして宣言した
+ */
 using Point3 = Vec3;
+using Color = Vec3;
 
 #endif //PRACTICEPATHTRACING_VEC3_H
