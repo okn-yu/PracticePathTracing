@@ -3,7 +3,7 @@
  */
 
 #include <random>
-#include "vec3.h"
+#include "futaba/core/vec3.h"
 
 /*
  * 配列のインデックスエラーが発生しないかをチェックする
@@ -26,7 +26,7 @@ std::random_device rnd_dev;
 std::mt19937 mt(rnd_dev());
 std::uniform_real_distribution<> dist(0, 1);
 
-inline float rnd() {
+float rnd() {
     return dist(mt);
 }
 
@@ -40,3 +40,18 @@ T clamp(T x, T xmin, T xmax) {
         return x;
     }
 }
+
+/*
+ * templateをヘッダファイルと.cppに分けて書くとコンパイル時に失敗する
+ * 対策としてはそもそも分けないか、以下のように型毎に明記することで回避できる（明示的実体化）
+ * https://pknight.hatenablog.com/entry/20090826/1251303641
+ */
+
+template float clamp<float>(float x, float xmin, float xmax);
+
+template int clamp<int>(int x, int xmin, int xmax);
+
+
+void util_test() {
+    std::cout << "util_test is called!" << std::endl;
+};
