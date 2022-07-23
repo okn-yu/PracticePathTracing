@@ -1,14 +1,19 @@
 /*
  * Created by okn-yu on 2022/05/04.
+ */
+
+/*
  * 調べた結果以下の結論に達した
- * オブジェクト型のポイントを扱う場合は、生のポイントの代わりにスマートポインタを用いるとよい
- * 組み込み型の配列を扱う場合は、配列の代わりにvectorを用いる
- * オブジェクト型の配列を扱う場合は、vectorとスマートポインタを組み合わせて用いる
+ * オブジェクト型のポイントを扱う場合は、生のポイントの代わりにstdのスマートポインタを用いるとよい
+ * 組み込み型の配列を扱う場合は、配列の代わりにstdのvectorを用いる
+ * オブジェクト型の配列を扱う場合は、stdのvectorとstdのスマートポインタを組み合わせて用いる
  * これらを用いることでポインタの開放忘れによる弊害を防ぐことができる
+ * new演算子とdelete演算子を利用する必要性は基本的になく、デストラクタの実装も不要
  */
 
 #ifndef PRACTICEPATHTRACING_IMAGE_H
 #define PRACTICEPATHTRACING_IMAGE_H
+
 #include <cassert>
 #include <iostream>
 #include <fstream>
@@ -20,9 +25,9 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 
 #include "stb_image_write.h"
-#include "core/vec3.hpp"
-#include "image/pixel.hpp"
-#include "core/utils.hpp"
+#include "core/vec3.h"
+#include "core/utils.h"
+#include "image/pixel.h"
 
 
 template<typename T>
@@ -30,16 +35,19 @@ class Image {
 public:
     int width;
     int height;
-    std::vector<std::shared_ptr<T>> pixels;
 
-    // std::vector<std::shared_ptr<T>> objects {100, std::make_shared<T>()};
+    std::vector<std::shared_ptr<T>> pixels{height * width, std::make_shared<T>()};
+
+    /*
+    std::vector<std::shared_ptr<T>> pixels;
     Image(int _width, int _height) : width(_width), height(_height) {
         // TODO:もっと良い初期化方法を探すこと
         // cf:    auto mat2 = std::make_shared<Diffuse>(Vec3(0.2, 0.2, 0.8));
         for (int i = 0; i < width * height; i++) {
             pixels.push_back(std::make_shared<T>());
-        }
+            }
     }
+     */
 
     T read_pixel(int x, int y) const {
         int index = y * width + x;
