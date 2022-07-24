@@ -76,9 +76,9 @@
 set(CMAKE_DEBUG_OPT on)
 
 # message:デバッグ用途のためコンソールに出力する
-if(CMAKE_DEBUG_OPT)
+if (CMAKE_DEBUG_OPT)
     message("Start /CMake.")
-endif()
+endif ()
 
 # ${CMAKE_SOURCE_DIR}:CMakeLists.txtのルートのパスを表す
 # message("DEBUG: CMAKE_SOURCE_DIR is ${CMAKE_SOURCE_DIR}")
@@ -92,7 +92,10 @@ cmake_minimum_required(VERSION 3.17)
 # これはルートのCMakeListsにのみ記載する
 PROJECT(PracticePathTracing CXX)
 
-include_directories(include)
+# 非推奨コマンド
+# 定義したライン以降の全てのターゲットが指定したディレクトリをインクルードしてしまう
+# んがっ、Mitsubaでは利用されている...!
+# include_directories(${CMAKE_SOURCE_DIR}/include)
 
 # サブフォルダの登録
 add_subdirectory(src)

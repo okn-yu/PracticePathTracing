@@ -94,9 +94,9 @@
 #include <iostream>
 #include <map>
 #include <stack>
-#include "core/config.h"
-#include "core/utils.h"
-#include "core/vec3.h"
+#include "futaba/core/config.h"
+#include "futaba/core/util.h"
+#include "futaba/core/vec3.h"
 
 /*
  * ガンマ補正用のルックアップテーブル
@@ -392,10 +392,11 @@ public:
         data[2] = 0;
     }
 
-    Pixel(Color col){
+    explicit Pixel(Color col){
         float r = pixalize(col.x());
         float g = pixalize(col.y());
         float b = pixalize(col.z());
+
 
         auto R = static_cast<int>(r * 255);
         auto G = static_cast<int>(g * 255);
@@ -421,24 +422,27 @@ public:
     Pixel &operator=(const Pixel &src) = default;
 
 private:
-    virtual float pixalize(float f) const = 0;
+    virtual float pixalize(float f) const{
+
+        return clamp(f, 0.0f, 1.0f);
+    };
 };
 
 class RGBPixel : public Pixel{
 public:
     RGBPixel():Pixel() {}
-    RGBPixel(Color col): Pixel(col){}
-
+    explicit RGBPixel(Color col): Pixel(col){}
+/*
 private:
     float pixalize(float f)const override{
         return clamp(f, 0.0f, 1.0f);
-    }
+    }*/
 };
 
 class NormalPixel : public Pixel{
 public:
     NormalPixel():Pixel() {}
-    NormalPixel(Color col): Pixel(col){}
+    explicit NormalPixel(Color col): Pixel(col){}
 
 private:
     float pixalize(float f)const override{

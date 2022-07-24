@@ -2,8 +2,9 @@
  * Created by okn-yu on 2022/07/23.
  */
 
+#include <iostream>
 #include <random>
-#include "futaba/core/vec3.h"
+//#include "futaba/core/vec3.h"
 
 /*
  * 配列のインデックスエラーが発生しないかをチェックする
