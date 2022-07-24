@@ -7,10 +7,9 @@
 
 #include <memory>
 #include <vector>
-#include "core/ray.hpp"
-#include "object/hit.hpp"
-#include "object/sphere.hpp"
-#include "core/config.hpp"
+#include "futaba/core/ray.h"
+#include "futaba/render/hit.h"
+#include "futaba/render/sphere.h"
 
 class Aggregate {
 public:
@@ -29,7 +28,7 @@ public:
     bool intersect(Ray &ray, HitRecord &hit_rec) const {
         bool is_hit = false;
 
-        for (const auto& s: spheres) {
+        for (const auto &s: spheres) {
             HitRecord hit_temp = HitRecord();
             if (s->is_hittable(ray, hit_temp)) {
                 if (hit_temp.t < hit_rec.t) {
@@ -41,6 +40,5 @@ public:
         return is_hit;
     }
 };
-
 
 #endif //PRACTICEPATHTRACING_AGGREGATE_HPP

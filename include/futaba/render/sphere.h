@@ -8,24 +8,26 @@
 #include <cmath>
 #include <memory>
 #include <utility>
-#include "core/config.hpp"
-#include "object/hit.hpp"
-#include "lights/light.hpp"
-#include "materials/material.hpp"
-#include "core/ray.hpp"
-#include "core/vec3.hpp"
+#include "futaba/core/config.h"
+#include "futaba/core/ray.h"
+#include "futaba/core/vec3.h"
+#include "futaba/render/hit.h"
 
 
 class Sphere {
 public:
     Vec3 center;
     float radius;
-    std::shared_ptr<Material> material;
-    std::shared_ptr<PointLight> light;
+    //std::shared_ptr<Material> material;
+    //std::shared_ptr<PointLight> light;
 
+    /*
     Sphere(const Vec3 &_center, float _radius, std::shared_ptr<Material> _material,
            std::shared_ptr<PointLight> _light) : center(_center), radius(_radius),
-                                                  material(_material), light(_light) {};
+                                                 material(_material), light(_light) {};
+    */
+
+    Sphere(const Vec3 &_center, float _radius) : center(_center), radius(_radius) {};
 
     bool is_hittable(Ray &ray, HitRecord &hit_record) const {
         float b = dot(ray.direction, ray.origin - center);
@@ -55,15 +57,15 @@ public:
             // HIT_DISTANCE_MIN < t1　< HIT_DISTANCE_MAX,  t2とHIT_DISTANCE_MAXの関係は任意
             if (t1 > HIT_DISTANCE_MIN)
                 t = t1;
-            // t2が採用されるのは以下の場合のみ
-            // t1 < HIT_DISTANCE_MIN < t2　< HIT_DISTANCE_MAX
+                // t2が採用されるのは以下の場合のみ
+                // t1 < HIT_DISTANCE_MIN < t2　< HIT_DISTANCE_MAX
             else
                 t = t2;
 
             hit_record.t = t;
             hit_record.hit_object = this;
             hit_record.hit_pos = ray(t);
-            hit_record.hit_normal = (hit_record.hit_pos - center).normalize();
+            hit_record.hit_normal = unit_vec(hit_record.hit_pos - center);
 
             return true;
         }
