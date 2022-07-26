@@ -5,12 +5,10 @@
  * 仮想関数
  */
 
-#ifndef PRACTICEPATHTRACING_CAMERA_H
-#define PRACTICEPATHTRACING_CAMERA_H
-
 #include <cassert>
-#include "core/vec3.h"
-#include "core/ray.h"
+#include "futaba/core/vec3.h"
+#include "futaba/core/ray.h"
+#include "futaba/render/camera.h"
 
 /*
  * デジタルカメラの原理:
@@ -66,72 +64,41 @@
  * センサからレンズまでの距離が遠いと画角が狭くなり近いと画角が広くなる
  */
 
-class Camera {
-public:
-    Point3 cam_sensor_pos;
-    Vec3 cam_sight_vec;
-    Vec3 cam_side_vec;
-    Vec3 cam_up_vec;
-    float cam_sensor_height;
-    float cam_sensor_width;
-    float cam_sensor_dist;
+Camera::Camera(const Point3 &_cam_sensor_pos, const Vec3 &_cam_sight_vec, float _cam_sensor_width,
+               float _cam_sensor_height,
+               float _cam_sensor_dist) {
 
-    Camera(const Point3 &_cam_sensor_pos, const Vec3 &_cam_sight_vec, float _cam_sensor_width, float _cam_sensor_height,
-           float _cam_sensor_dist) {
+    cam_sensor_pos = _cam_sensor_pos;
 
-        cam_sensor_pos = _cam_sensor_pos;
-
-        /* 一番素直な実装はcam_sight_vecの回転と連動してcam_side_vecとcam_up_vecも変換されるのが最も望ましい
-         * 初期状態では各ベクトルは以下のように与えられる
-         * cam_sight_vec: (0, 0, 1)
-         * cam_right_vec: (1, 0, 0)
-         * cam_up_vec: (0, 1, 0)
-         *
-         * 任意の正規化されたcam_sight_vecは(0, 0, 1)のx軸回転とy軸回転の組み合わせで表すことができる
-         * 同等の回転をcam_right_vecおよびcam_up_vecに作用させればよい
-         */
-        cam_sight_vec = unit_vec(_cam_sight_vec);
-        float _theta_x = _rot_x_angle();
-        float _theta_y = _rot_y_angle();
-        cam_side_vec = rotation_y(rotation_x(Vec3(1, 0, 0), _theta_x), _theta_y);
-        cam_up_vec = rotation_y(rotation_x(Vec3(0, 1, 0), _theta_x), _theta_y);
-
-        /*
-         * デバッグを考えるとセンサーのアスペクト比が1:1は望ましくない
-         * 横16:縦9の一般的なモニターの比率が望ましい
-         */
-        cam_sensor_width = _cam_sensor_width;
-        cam_sensor_height = _cam_sensor_height;
-        cam_sensor_dist = _cam_sensor_dist;
-
-    };
-
-    /*
-     * (u, v)はセンサ上のワールド座標系で表された任意の座標を、cam_right_vecおよびcam_up_vecを基底として表現したときの係数に相当する
-     * 例:
-     *  ワールド座標系で(1, -1, 0)のセンサー右下の点の場合
-     *  cam_right_vecが(-1, 0, 0), cam_up_vecが(0, 1, 0)の場合であれば、(u, v) = (-1, -1)として与えられる
+    /* 一番素直な実装はcam_sight_vecの回転と連動してcam_side_vecとcam_up_vecも変換されるのが最も望ましい
+     * 初期状態では各ベクトルは以下のように与えられる
+     * cam_sight_vec: (0, 0, 1)
+     * cam_right_vec: (1, 0, 0)
+     * cam_up_vec: (0, 1, 0)
+     *
+     * 任意の正規化されたcam_sight_vecは(0, 0, 1)のx軸回転とy軸回転の組み合わせで表すことができる
+     * 同等の回転をcam_right_vecおよびcam_up_vecに作用させればよい
      */
+    cam_sight_vec = unit_vec(_cam_sight_vec);
+    float _theta_x = _rot_x_angle();
+    float _theta_y = _rot_y_angle();
+    cam_side_vec = rotation_y(rotation_x(Vec3(1, 0, 0), _theta_x), _theta_y);
+    cam_up_vec = rotation_y(rotation_x(Vec3(0, 1, 0), _theta_x), _theta_y);
 
     /*
-    * virtualは仮想関数でポリモーフィズムの実現に利用される
-    * const = 0; は仮想関数を記載する際のお約束
-    */
-    virtual Ray shoot(float u, float v) const = 0;
-
-private:
-    /*
-     * rot_x_angle, rot_y_angle関数
-     * x軸->y軸の順で回転操作を実施したと過程した場合に、(0, 0, 1)がcam_sight_vecと一致するような回転角を求める
+     * デバッグを考えるとセンサーのアスペクト比が1:1は望ましくない
+     * 横16:縦9の一般的なモニターの比率が望ましい
      */
+    cam_sensor_width = _cam_sensor_width;
+    cam_sensor_height = _cam_sensor_height;
+    cam_sensor_dist = _cam_sensor_dist;
 
-    float _rot_x_angle() const {
-        return asin(-cam_sight_vec.y());
-    }
-
-    float _rot_y_angle() const {
-        return acos(cam_sight_vec.z() / sqrt(1 - pow(cam_sight_vec.y(), 2)));
-    }
 };
 
-#endif //PRACTICEPATHTRACING_CAMERA_H
+float Camera::_rot_x_angle() const {
+    return asin(-cam_sight_vec.y());
+}
+
+float Camera::_rot_y_angle() const {
+    return acos(cam_sight_vec.z() / sqrt(1 - pow(cam_sight_vec.y(), 2)));
+}
